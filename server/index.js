@@ -19,4 +19,6 @@ app.use(graphqlEndpoint, bodyParser.json(), graphqlExpress({ schema }));
 
 app.use('/graphiql', graphiqlExpress({ endpointURL: graphqlEndpoint }));
 
-app.listen(PORT);
+models.sequelize.sync().then(() => {
+  app.listen(PORT);
+});
