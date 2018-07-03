@@ -2,10 +2,16 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
-import typeDefs from './schema';
-import resolvers from './resolvers';
+import path from 'path';
+import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
+
 import models from './models';
 
+const allTypes = fileLoader(path.join(__dirname, './types'));
+const typeDefs = mergeTypes(allTypes);
+
+const allResolvers = fileLoader(path.join(__dirname, './resolvers'));
+const resolvers = mergeResolvers(allResolvers);
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
