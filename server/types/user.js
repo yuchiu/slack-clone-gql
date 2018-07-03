@@ -5,4 +5,11 @@ export default `
         email:String!
         teams: [Team!]!
     }
+    type Query{
+        getUser(id: Int!): User!
+        getAllUser(id: Int!): [User!]!
+    }
+    type Mutation{
+        createUser(username: String!, email: String!, password: String!): User!
+    }
 `;
