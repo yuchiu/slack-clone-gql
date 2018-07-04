@@ -16,6 +16,9 @@ module.exports = {
           "experimentalObjectRestSpread": true
       }
     },
+    "globals":{
+      "document":1
+    },
     "rules":{
       "class-methods-use-this": 0,
       "import/prefer-default-export": 0,

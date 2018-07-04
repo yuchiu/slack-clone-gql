@@ -1,15 +1,16 @@
 import React from "react";
-import logo from "../../assets/img/logo.png";
+import { graphql, gql } from "react-apollo";
 
-class Home extends React.Component {
-  render() {
-    return (
-      <div>
-        <img id="logo" src={logo} />
-        <br />React Boilerplate
-      </div>
-    );
+const Home = ({ data: { loading, allUsers } }) =>
+  loading ? null : allUsers.map(user => <h1 key={user.id}>{user.email}</h1>);
+
+const allUsersQuery = gql`
+  {
+    allUsers {
+      id
+      email
+    }
   }
-}
+`;
 
-export default Home;
+export default graphql(allUsersQuery)(Home);
