@@ -1,13 +1,7 @@
 import React from "react";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
-
-class Home extends React.Component {
-  render() {
-    console.log(this.props.data.getAllUsers);
-    return <div>dadsaasd</div>;
-  }
-}
+import PropTypes from "prop-types";
 
 const getAllUsersQuery = gql`
   {
@@ -17,5 +11,24 @@ const getAllUsersQuery = gql`
     }
   }
 `;
+
+class Home extends React.Component {
+  displayUsers() {
+    const { data } = this.props;
+    if (data.loading) {
+      return <div>loading Users..</div>;
+    }
+    return data.getAllUsers.map(user => <h1 key={user.id}>{user.email}</h1>);
+  }
+
+  render() {
+    console.log(this.props.data);
+    return <div>{this.displayUsers()}</div>;
+  }
+}
+
+Home.propTypes = {
+  data: PropTypes.object
+};
 
 export default graphql(getAllUsersQuery)(Home);
