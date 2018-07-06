@@ -1,16 +1,21 @@
 import React from "react";
-import { graphql, gql } from "react-apollo";
+import { gql } from "apollo-boost";
+import { graphql } from "react-apollo";
 
-const Home = ({ data: { loading, allUsers } }) =>
-  loading ? null : allUsers.map(user => <h1 key={user.id}>{user.email}</h1>);
+class Home extends React.Component {
+  render() {
+    console.log(this.props.data.getAllUsers);
+    return <div>dadsaasd</div>;
+  }
+}
 
-const allUsersQuery = gql`
+const getAllUsersQuery = gql`
   {
-    allUsers {
+    getAllUsers {
       id
       email
     }
   }
 `;
 
-export default graphql(allUsersQuery)(Home);
+export default graphql(getAllUsersQuery)(Home);
