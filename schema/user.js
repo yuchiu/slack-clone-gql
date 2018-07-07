@@ -7,9 +7,9 @@ export default `
     }
     type Query{
         getUser(id: Int!): User!
-        getAllUser: [User!]!
+        getAllUsers: [User!]!
     }
     type Mutation{
-        createUser(username: String!, email: String!, password: String!): User!
+        register(username: String!, email: String!, password: String!): Boolean!
     }
 `;
