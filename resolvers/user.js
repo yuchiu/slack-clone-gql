@@ -22,11 +22,13 @@ export default {
         if (password.length < 6 || password.length > 30) {
           return {
             validation: false,
-            errors: {
-              path: 'password',
-              message:
+            errors: [
+              {
+                path: 'password',
+                message:
               'password length need to be between 6 to 30 character long',
-            },
+              },
+            ],
           };
         }
 
