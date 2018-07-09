@@ -6,11 +6,11 @@ export default (sequelize, DataTypes) => {
       validate: {
         isAlphanumeric: {
           args: true,
-          msg: 'The username can only contain letter and numbers',
+          msg: 'Username can only contain letters and numbers',
         },
         len: {
-          args: [3, 20],
-          msg: 'Length of username could only be between 3 to 20.',
+          args: [3, 25],
+          msg: 'Username needs to be between 3 and 25 characters long',
         },
       },
     },
@@ -20,21 +20,30 @@ export default (sequelize, DataTypes) => {
       validate: {
         isEmail: {
           args: true,
-          msg: 'Invalid email.',
+          msg: 'Invalid email',
         },
       },
     },
     password: DataTypes.STRING,
   });
+
   User.associate = (models) => {
     User.belongsToMany(models.Team, {
       through: 'member',
-      foreignKey: 'userId',
+      foreignKey: {
+        name: 'userId',
+        field: 'user_id',
+      },
     });
+    // N:M
     User.belongsToMany(models.Channel, {
       through: 'channel_member',
-      foreignKey: 'userId',
+      foreignKey: {
+        name: 'userId',
+        field: 'user_id',
+      },
     });
   };
+
   return User;
 };

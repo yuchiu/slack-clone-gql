@@ -8,32 +8,42 @@ import cors from 'cors';
 
 import models from './models';
 
-const allTypes = fileLoader(path.join(__dirname, './schema'));
-const typeDefs = mergeTypes(allTypes);
+const SECRET = 'aasdasdffdfghjjhklj8i';
+const SECRET2 = '546yhfgjhgkcfbvvtyu865';
 
-const allResolvers = fileLoader(path.join(__dirname, './resolvers'));
-const resolvers = mergeResolvers(allResolvers);
+const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './schema')));
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const resolvers = mergeResolvers(fileLoader(path.join(__dirname, './resolvers')));
 
-const PORT = 8081;
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 
 const app = express();
+
 app.use(cors('*'));
 
 const graphqlEndpoint = '/graphql';
 
-// object in context is passed to functions in resolvers, it's being use in ./resolvers
-app.use(graphqlEndpoint, bodyParser.json(), graphqlExpress({
-  schema,
-  context: {
-    models,
-    user: { id: 1 },
-  },
-}));
+app.use(
+  graphqlEndpoint,
+  bodyParser.json(),
+  graphqlExpress({
+    schema,
+    context: {
+      models,
+      user: {
+        id: 1,
+      },
+      SECRET,
+      SECRET2,
+    },
+  }),
+);
 
 app.use('/graphiql', graphiqlExpress({ endpointURL: graphqlEndpoint }));
 
-models.sequelize.sync().then(() => {
-  app.listen(PORT);
+models.sequelize.sync({}).then(() => {
+  app.listen(8081);
 });
