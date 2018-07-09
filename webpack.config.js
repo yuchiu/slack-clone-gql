@@ -59,12 +59,12 @@ module.exports = {
       }
     }),
     new htmlWebpackPlugin({
-      template: path.join(__dirname, 'index.html'),
+      template: path.join(__dirname, 'public', 'index.html'),
       hash: true
     })
   ] : [
     new htmlWebpackPlugin({
-      template: path.join(__dirname, 'index.html'),
+      template: path.join(__dirname, 'public', 'index.html'),
       hash: true
     }),
     new webpack.HotModuleReplacementPlugin(),
