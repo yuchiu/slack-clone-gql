@@ -9,7 +9,12 @@ export default `
         getUser(id: Int!): User!
         getAllUsers: [User!]!
     }
+    type RegisterResponse{
+        validation: Boolean!
+        user: User
+        errors: [Error!]
+    }
     type Mutation{
-        register(username: String!, email: String!, password: String!): Boolean!
+        register(username: String!, email: String!, password: String!): RegisterResponse!
     }
 `;
