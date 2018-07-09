@@ -1,4 +1,6 @@
 import React from "react";
+import { gql } from "apollo-boost";
+import { graphql } from "react-apollo";
 import { Container, Header, Input, Button } from "semantic-ui-react";
 
 class Register extends React.Component {
@@ -18,8 +20,11 @@ class Register extends React.Component {
     });
   }
 
-  onSubmit() {
-    console.log(this.state);
+  async onSubmit() {
+    const response = await this.props.mutate({
+      variables: this.state
+    });
+    console.log(response);
   }
 
   render() {
@@ -58,4 +63,10 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+const registerMutation = gql`
+  mutation($username: String!, $email: String!, $password: String!) {
+    register(username: $username, email: $email, password: $password)
+  }
+`;
+
+export default graphql(registerMutation)(Register);
