@@ -1,5 +1,8 @@
 import React from "react";
-import { Container, Header, Input, Button, Message } from "semantic-ui-react";
+import { gql } from "apollo-boost";
+import { graphql } from "react-apollo";
+import Proptypes from "prop-types";
+import { Container, Header, Input, Button } from "semantic-ui-react";
 
 class Login extends React.Component {
   constructor(props) {
@@ -19,7 +22,10 @@ class Login extends React.Component {
 
   async onLogin() {
     const { email, password } = this.state;
-    console.log(this.state);
+    const response = await this.props.mutate({
+      variables: { email, password }
+    });
+    console.log(response);
   }
 
   render() {
@@ -49,5 +55,22 @@ class Login extends React.Component {
     );
   }
 }
+Login.propTypes = {
+  mutate: Proptypes.func
+};
 
-export default Login;
+const loginMutation = gql`
+  mutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      verified
+      token
+      refreshToken
+      errors {
+        path
+        message
+      }
+    }
+  }
+`;
+
+export default graphql(loginMutation)(Login);

@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Home, Register } from "../components/layout";
+import Home from "./Home";
+import Login from "./Login";
+import Register from "./Register";
+import NotFound from "./NotFound";
 
 class Routes extends React.Component {
   render() {
@@ -9,6 +12,8 @@ class Routes extends React.Component {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/register" exact component={Register} />
+          <Route path="/Login" exact component={Login} />
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     );
