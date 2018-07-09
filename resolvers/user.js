@@ -19,8 +19,20 @@ export default {
     // object models is passed from ../index.js as context object
     register: async (parent, { password, ...otherArgs }, { models }) => {
       try {
+        if (password.length < 6 || password.length > 30) {
+          return {
+            validation: false,
+            errors: {
+              path: 'password',
+              message:
+              'password length need to be between 6 to 30 character long',
+            },
+          };
+        }
+
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = await models.User.create({ ...otherArgs, password: hashedPassword });
+
         return {
           validation: true,
           user,
