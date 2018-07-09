@@ -1,12 +1,12 @@
 import React from "react";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
-import { Container, Header, Input, Button } from "semantic-ui-react";
+import { Container, Header, Input, Button, Message } from "semantic-ui-react";
 import Proptypes from "prop-types";
 
 class Register extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: "",
       email: "",
@@ -24,12 +24,17 @@ class Register extends React.Component {
     });
   }
 
-  async onSubmit() {
+  async onRegister() {
+    this.setState({
+      usernameError: "",
+      emailError: "",
+      passwordError: ""
+    });
     const { username, email, password } = this.state;
     const response = await this.props.mutate({
       variables: { username, email, password }
     });
-
+    console.log(response);
     const { validation, errors } = response.data.register;
 
     if (validation) {
@@ -54,9 +59,19 @@ class Register extends React.Component {
       emailError,
       passwordError
     } = this.state;
+    const errorList = [];
+    if (usernameError) {
+      errorList.push(usernameError);
+    }
+    if (emailError) {
+      errorList.push(emailError);
+    }
+    if (passwordError) {
+      errorList.push(passwordError);
+    }
     return (
       <Container text>
-        <Header as="h2">Header</Header>
+        <Header as="h2">Register</Header>
         <Input
           error={!!usernameError}
           focus
@@ -76,7 +91,7 @@ class Register extends React.Component {
           fluid
         />
         <Input
-          error={passwordError}
+          error={!!passwordError}
           focus
           type="password"
           name="password"
@@ -85,7 +100,10 @@ class Register extends React.Component {
           onChange={this.onChange.bind(this)}
           fluid
         />
-        <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
+        <Button onClick={this.onRegister.bind(this)}>Register</Button>
+        {usernameError || emailError || passwordError ? (
+          <Message error header="Errors with Register" list={errorList} />
+        ) : null}
       </Container>
     );
   }
