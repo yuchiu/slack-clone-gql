@@ -2,6 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 import { Container, Header, Input, Button } from "semantic-ui-react";
+import Proptypes from "prop-types";
 
 class Register extends React.Component {
   constructor() {
@@ -9,7 +10,10 @@ class Register extends React.Component {
     this.state = {
       username: "",
       email: "",
-      password: ""
+      password: "",
+      usernameError: "",
+      emailError: "",
+      passwordError: ""
     };
   }
 
@@ -21,18 +25,40 @@ class Register extends React.Component {
   }
 
   async onSubmit() {
+    const { username, email, password } = this.state;
     const response = await this.props.mutate({
-      variables: this.state
+      variables: { username, email, password }
     });
+
+    const { validation, errors } = response.data.register;
+
+    if (validation) {
+      this.props.history.push("/");
+    } else {
+      const err = {};
+      errors.forEach(({ path, message }) => {
+        err[`${path}Error`] = message;
+      });
+      this.setState(err);
+    }
+
     console.log(response);
   }
 
   render() {
-    const { username, email, password } = this.state;
+    const {
+      username,
+      email,
+      password,
+      usernameError,
+      emailError,
+      passwordError
+    } = this.state;
     return (
       <Container text>
         <Header as="h2">Header</Header>
         <Input
+          error={!!usernameError}
           focus
           placeholder="username"
           name="username"
@@ -41,6 +67,7 @@ class Register extends React.Component {
           fluid
         />
         <Input
+          error={!!emailError}
           focus
           placeholder="email"
           name="email"
@@ -49,6 +76,7 @@ class Register extends React.Component {
           fluid
         />
         <Input
+          error={passwordError}
           focus
           type="password"
           name="password"
@@ -63,9 +91,20 @@ class Register extends React.Component {
   }
 }
 
+Register.propTypes = {
+  mutate: Proptypes.func,
+  history: Proptypes.object
+};
+
 const registerMutation = gql`
   mutation($username: String!, $email: String!, $password: String!) {
-    register(username: $username, email: $email, password: $password)
+    register(username: $username, email: $email, password: $password) {
+      validation
+      errors {
+        path
+        message
+      }
+    }
   }
 `;
 
