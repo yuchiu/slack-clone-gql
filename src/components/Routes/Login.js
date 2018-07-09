@@ -26,6 +26,11 @@ class Login extends React.Component {
       variables: { email, password }
     });
     console.log(response);
+    const { verified, token, refreshToken } = response.data.login;
+    if (verified) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("refreshToken", refreshToken);
+    }
   }
 
   render() {
