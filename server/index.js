@@ -6,12 +6,12 @@ import path from 'path';
 import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
-import { refreshTokens } from './utils/auth';
 
 import models from './models';
+import { refreshTokens } from './utils/auth';
 
-const SECRET = 'aasdasdffdfghjjhklj8i';
-const SECRET2 = '546yhfgjhgkcfbvvtyu865';
+const SECRET = 'asiodfhoi1hoi23jnl1kejd';
+const SECRET2 = 'asiodfhoi1hoi23jnl1kejasdjlkfasdd';
 
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './schema')));
 
@@ -24,6 +24,7 @@ const schema = makeExecutableSchema({
 
 const app = express();
 
+app.use(cors('*'));
 
 const addUser = async (req, res, next) => {
   const token = req.headers['x-token'];
@@ -45,6 +46,7 @@ const addUser = async (req, res, next) => {
   next();
 };
 
+app.use(addUser);
 
 const graphqlEndpoint = '/graphql';
 
@@ -62,8 +64,6 @@ app.use(
   })),
 );
 
-app.use(cors('*'));
-app.use(addUser);
 app.use('/graphiql', graphiqlExpress({ endpointURL: graphqlEndpoint }));
 
 models.sequelize.sync({}).then(() => {

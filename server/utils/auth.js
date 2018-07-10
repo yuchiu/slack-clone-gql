@@ -27,7 +27,7 @@ export const createTokens = async (user, secret, secret2) => {
 };
 
 export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2) => {
-  let userId = -1;
+  let userId = 0;
   try {
     const { user: { id } } = jwt.decode(refreshToken);
     userId = id;
@@ -44,7 +44,9 @@ export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2
   if (!user) {
     return {};
   }
+
   const refreshSecret = user.password + SECRET2;
+
   try {
     jwt.verify(refreshToken, refreshSecret);
   } catch (err) {
@@ -64,8 +66,8 @@ export const tryLogin = async (email, password, models, SECRET, SECRET2) => {
   if (!user) {
     // user with provided email not found
     return {
-      verified: false,
-      errors: [{ path: 'email', message: 'Invalid email' }],
+      ok: false,
+      errors: [{ path: 'email', message: 'Wrong email' }],
     };
   }
 
@@ -74,7 +76,7 @@ export const tryLogin = async (email, password, models, SECRET, SECRET2) => {
     // bad password
     return {
       verified: false,
-      errors: [{ path: 'password', message: 'Invalid password' }],
+      errors: [{ path: 'password', message: 'Wrong password' }],
     };
   }
 
