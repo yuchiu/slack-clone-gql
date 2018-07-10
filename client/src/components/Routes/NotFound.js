@@ -1,8 +1,13 @@
 import React from "react";
+import { NavBar } from "../presentations";
 
 class NotFound extends React.Component {
   render() {
-    return <div>NotFound</div>;
+    return (
+      <div>
+        <NavBar />NotFound
+      </div>
+    );
   }
 }
 

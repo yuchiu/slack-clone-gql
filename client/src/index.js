@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { ApolloLink } from "apollo-link";
 import { ApolloProvider } from "react-apollo";
 import { setContext } from "apollo-link-context";
+import { ApolloLink } from "apollo-link";
 
 import "../assets/scss/main.scss";
 import Routes from "./components/Routes";
@@ -46,10 +46,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const App = (
+const app = (
   <ApolloProvider client={client}>
     <Routes />
   </ApolloProvider>
 );
 
-ReactDOM.render(App, document.getElementById("root"));
+ReactDOM.render(app, document.getElementById("root"));
