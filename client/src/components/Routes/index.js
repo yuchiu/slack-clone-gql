@@ -45,11 +45,11 @@ class Routes extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route component={NotFound} />
           <Route path="/register" exact component={Register} />
           <Route path="/Login" exact component={Login} />
           <PrivateRoute path="/create-team" exact component={CreateTeam} />
           <PrivateRoute path="/team" exact component={ViewTeam} />
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     );
