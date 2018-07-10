@@ -1,19 +1,55 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ApolloClient } from "apollo-client";
+import { createHttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloLink } from "apollo-link";
 import { ApolloProvider } from "react-apollo";
-import ApolloClient from "apollo-boost";
+import { setContext } from "apollo-link-context";
 
 import "../assets/scss/main.scss";
 import Routes from "./components/Routes";
 
-const client = new ApolloClient({
-  uri: "http://localhost:8081/graphql"
+// eslint-disable-next-line
+const httpLink = createHttpLink({ uri: 'http://localhost:8081/graphql' });
+
+const middlewareLink = setContext(() => ({
+  headers: {
+    "x-token": localStorage.getItem("token"),
+    "x-refresh-token": localStorage.getItem("refreshToken")
+  }
+}));
+
+const afterwareLink = new ApolloLink((operation, forward) => {
+  const { headers } = operation.getContext();
+
+  if (headers) {
+    const token = headers.get("x-token");
+    const refreshToken = headers.get("x-refresh-token");
+
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+
+    if (refreshToken) {
+      localStorage.setItem("refreshToken", refreshToken);
+    }
+  }
+
+  return forward(operation);
 });
 
-const app = (
+const link = afterwareLink.concat(middlewareLink.concat(httpLink));
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
+});
+
+const App = (
   <ApolloProvider client={client}>
     <Routes />
   </ApolloProvider>
 );
 
-ReactDOM.render(app, document.getElementById("root"));
+ReactDOM.render(App, document.getElementById("root"));
