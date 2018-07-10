@@ -1,10 +1,8 @@
 # Slack Clone
 
-#### [Slack Clone Server Github Repository](https://github.com/yuchiu/Slack-Clone-Server)
-
 ## Usage
 
-#### terminal A - Client
+### Server - Terminal A
 
 #### 1. install dependencies
 
@@ -18,9 +16,9 @@ npm install
 npm start
 ```
 
-The app will be running on http://localhost:8080
+Application will be running on http://localhost:8081
 
-#### terminal B - Server
+### Client - Terminal B
 
 #### 1. install dependencies
 
@@ -34,4 +32,4 @@ npm install
 npm start
 ```
 
-The app will be running on http://localhost:8081
+Application will be running on http://localhost:8080
