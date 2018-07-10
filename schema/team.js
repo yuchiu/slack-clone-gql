@@ -4,8 +4,11 @@ export default `
     members: [User!]!
     channels: [Channel!]!
   }
-
+  type CreateTeamResponse{
+    verified: Boolean!
+    errors: [Error!]
+  }
   type Mutation {
-    createTeam(name: String!): Boolean!
+    createTeam(name: String!): CreateTeamResponse!
   }
 `;

@@ -3,10 +3,15 @@ export default {
     createTeam: async (parent, args, { models, user }) => {
       try {
         await models.Team.create({ ...args, owner: user.id });
-        return true;
+        return {
+          verified: true,
+        };
       } catch (err) {
         console.log(err);
-        return false;
+        return {
+          verified: false,
+          errors: err,
+        };
       }
     },
   },
