@@ -2,6 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
+import { NavBar } from "../presentations";
 
 const getAllUsersQuery = gql`
   {
@@ -22,7 +23,12 @@ class Home extends React.Component {
   }
 
   render() {
-    return <div>{this.displayUsers()}</div>;
+    return (
+      <div>
+        <NavBar />
+        {this.displayUsers()}
+      </div>
+    );
   }
 }
 

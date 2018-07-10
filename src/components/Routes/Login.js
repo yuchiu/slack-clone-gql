@@ -2,14 +2,24 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 import Proptypes from "prop-types";
-import { Container, Header, Input, Button } from "semantic-ui-react";
+import {
+  Form,
+  Container,
+  Header,
+  Input,
+  Button,
+  Message
+} from "semantic-ui-react";
+import { NavBar } from "../presentations";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      emailError: "",
+      passwordError: ""
     };
   }
 
@@ -20,48 +30,78 @@ class Login extends React.Component {
     });
   }
 
-  async onLogin() {
+  async onSubmit() {
+    this.setState({
+      emailError: "",
+      passwordError: ""
+    });
     const { email, password } = this.state;
     const response = await this.props.mutate({
       variables: { email, password }
     });
-    console.log(response);
-    const { verified, token, refreshToken } = response.data.login;
+    const { verified, token, refreshToken, errors } = response.data.login;
     if (verified) {
       localStorage.setItem("token", token);
       localStorage.setItem("refreshToken", refreshToken);
+      this.props.history.push("/");
+    } else {
+      const err = {};
+      errors.forEach(({ path, message }) => {
+        err[`${path}Error`] = message;
+      });
+      this.setState(err);
     }
   }
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, emailError, passwordError } = this.state;
+    const errorList = [];
+    if (emailError) {
+      errorList.push(emailError);
+    }
+    if (passwordError) {
+      errorList.push(passwordError);
+    }
     return (
-      <Container text>
-        <Header as="h2">Log In</Header>
-        <Input
-          focus
-          placeholder="email"
-          name="email"
-          onChange={this.onChange.bind(this)}
-          value={email}
-          fluid
-        />
-        <Input
-          focus
-          type="password"
-          name="password"
-          placeholder="password"
-          value={password}
-          onChange={this.onChange.bind(this)}
-          fluid
-        />
-        <Button onClick={this.onLogin.bind(this)}>Log In</Button>
-      </Container>
+      <div>
+        <NavBar />
+        <Container text>
+          <Header as="h2">Log In</Header>
+          <Form>
+            <Form.Field error={!!emailError}>
+              <Input
+                focus
+                placeholder="email"
+                name="email"
+                onChange={this.onChange.bind(this)}
+                value={email}
+                fluid
+              />
+            </Form.Field>
+            <Form.Field error={!!passwordError}>
+              <Input
+                focus
+                type="password"
+                name="password"
+                placeholder="password"
+                value={password}
+                onChange={this.onChange.bind(this)}
+                fluid
+              />
+            </Form.Field>
+            <Button onClick={this.onSubmit.bind(this)}>Log In</Button>
+          </Form>
+          {errorList.length ? (
+            <Message error header="Errors with Register" list={errorList} />
+          ) : null}
+        </Container>
+      </div>
     );
   }
 }
 Login.propTypes = {
-  mutate: Proptypes.func
+  mutate: Proptypes.func,
+  history: Proptypes.object
 };
 
 const loginMutation = gql`

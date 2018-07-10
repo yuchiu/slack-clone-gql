@@ -4,6 +4,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import NotFound from "./NotFound";
+import CreateTeam from "./CreateTeam";
 
 class Routes extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class Routes extends React.Component {
           <Route path="/" exact component={Home} />
           <Route path="/register" exact component={Register} />
           <Route path="/Login" exact component={Login} />
+          <Route path="/createteam" exact component={CreateTeam} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>

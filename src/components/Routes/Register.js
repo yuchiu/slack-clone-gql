@@ -1,8 +1,16 @@
 import React from "react";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
-import { Container, Header, Input, Button, Message } from "semantic-ui-react";
+import {
+  Form,
+  Container,
+  Header,
+  Input,
+  Button,
+  Message
+} from "semantic-ui-react";
 import Proptypes from "prop-types";
+import { NavBar } from "../presentations";
 
 class Register extends React.Component {
   constructor(props) {
@@ -24,7 +32,7 @@ class Register extends React.Component {
     });
   }
 
-  async onRegister() {
+  async onSubmit() {
     this.setState({
       usernameError: "",
       emailError: "",
@@ -34,10 +42,9 @@ class Register extends React.Component {
     const response = await this.props.mutate({
       variables: { username, email, password }
     });
-    console.log(response);
-    const { validation, errors } = response.data.register;
+    const { verified, errors } = response.data.register;
 
-    if (validation) {
+    if (verified) {
       this.props.history.push("/");
     } else {
       const err = {};
@@ -46,8 +53,6 @@ class Register extends React.Component {
       });
       this.setState(err);
     }
-
-    console.log(response);
   }
 
   render() {
@@ -70,41 +75,49 @@ class Register extends React.Component {
       errorList.push(passwordError);
     }
     return (
-      <Container text>
-        <Header as="h2">Register</Header>
-        <Input
-          error={!!usernameError}
-          focus
-          placeholder="username"
-          name="username"
-          value={username}
-          onChange={this.onChange.bind(this)}
-          fluid
-        />
-        <Input
-          error={!!emailError}
-          focus
-          placeholder="email"
-          name="email"
-          onChange={this.onChange.bind(this)}
-          value={email}
-          fluid
-        />
-        <Input
-          error={!!passwordError}
-          focus
-          type="password"
-          name="password"
-          placeholder="password"
-          value={password}
-          onChange={this.onChange.bind(this)}
-          fluid
-        />
-        <Button onClick={this.onRegister.bind(this)}>Register</Button>
-        {usernameError || emailError || passwordError ? (
-          <Message error header="Errors with Register" list={errorList} />
-        ) : null}
-      </Container>
+      <div>
+        <NavBar />
+        <Container text>
+          <Header as="h2">Register</Header>
+          <Form>
+            <Form.Field error={!!usernameError}>
+              <Input
+                focus
+                placeholder="username"
+                name="username"
+                value={username}
+                onChange={this.onChange.bind(this)}
+                fluid
+              />
+            </Form.Field>
+            <Form.Field error={!!emailError}>
+              <Input
+                focus
+                placeholder="email"
+                name="email"
+                onChange={this.onChange.bind(this)}
+                value={email}
+                fluid
+              />
+            </Form.Field>
+            <Form.Field error={!!passwordError}>
+              <Input
+                focus
+                type="password"
+                name="password"
+                placeholder="password"
+                value={password}
+                onChange={this.onChange.bind(this)}
+                fluid
+              />
+            </Form.Field>
+            <Button onClick={this.onSubmit.bind(this)}>Register</Button>
+          </Form>
+          {errorList.length ? (
+            <Message error header="Errors with Register" list={errorList} />
+          ) : null}
+        </Container>
+      </div>
     );
   }
 }
@@ -117,7 +130,7 @@ Register.propTypes = {
 const registerMutation = gql`
   mutation($username: String!, $email: String!, $password: String!) {
     register(username: $username, email: $email, password: $password) {
-      validation
+      verified
       errors {
         path
         message
