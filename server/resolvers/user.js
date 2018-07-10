@@ -4,7 +4,7 @@ import formatErrors from '../utils/formatErrors';
 export default {
   Query: {
     getUser: (parent, { id }, { models }) => models.User.findOne({ where: { id } }),
-    allUsers: (parent, args, { models }) => models.User.findAll(),
+    getAllUsers: (parent, args, { models }) => models.User.findAll(),
   },
   Mutation: {
     login: (parent,
