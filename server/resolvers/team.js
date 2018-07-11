@@ -1,11 +1,17 @@
-import formatErrors from '../utils/formatErrors';
+import { formatErrors, permission } from '../utils';
 
 export default {
+  Query: {
+    // verify if there is a user logged in before creating team
+    getAllTeams: permission.createResolver(async (parent, args, { models, user }) => {
+      await models.Team.findAll({ owner: user.id }, { raw: true });
+    }),
+  },
   Mutation: {
-    createTeam: async (parent, args, { models, user }) => {
+    // verify if there is a user logged in before creating team
+    createTeam: permission.createResolver(async (parent, args, { models, user }) => {
       try {
         await models.Team.create({ ...args, owner: user.id });
-        console.log(`-----------------${user}---------------`);
         return {
           verified: true,
         };
@@ -16,6 +22,13 @@ export default {
           errors: formatErrors(err),
         };
       }
+    }),
+  },
+  // not ideal
+  Team: {
+    channels: ({ id }, args, { models }) => {
+      models.Channel.findAll({ teamId: id });
     },
   },
+
 };

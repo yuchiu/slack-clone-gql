@@ -8,7 +8,7 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 
 import models from './models';
-import { refreshTokens } from './utils/auth';
+import { refreshTokens } from './utils';
 
 const SECRET = 'asiodfhoi1hoi23jnl1kejd';
 const SECRET2 = 'asiodfhoi1hoi23jnl1kejasdjlkfasdd';
