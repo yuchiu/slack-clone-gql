@@ -1,7 +1,7 @@
 import NavBar from "./NavBar";
-import Channels from "./Channels";
-import Teams from "./Teams";
+import SideBar from "./SideBar";
+import TeamBar from "./TeamBar";
 import Header from "./Header";
 import SendMessage from "./SendMessage";
 
-export { NavBar, Channels, Teams, Header, SendMessage };
+export { NavBar, SideBar, TeamBar, Header, SendMessage };

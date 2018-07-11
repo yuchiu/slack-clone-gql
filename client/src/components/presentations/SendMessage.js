@@ -1,7 +1,7 @@
 import React from "react";
 import Proptypes from "prop-types";
 import { Input } from "semantic-ui-react";
-import { SendMessageDiv } from "../../styles/viewTeam";
+import { SendMessageDiv } from "../../styles/viewTeam/SendMessage";
 
 class SendMessage extends React.Component {
   render() {
