@@ -1,14 +1,13 @@
 import React from "react";
 import Proptypes from "prop-types";
 import { Header as Title } from "semantic-ui-react";
-import { HeaderDiv } from "../../styles/viewTeam/Header";
 
 class Header extends React.Component {
   render() {
     return (
-      <HeaderDiv>
+      <div className="header-wrapper">
         <Title>#{this.props.channelName}</Title>
-      </HeaderDiv>
+      </div>
     );
   }
 }

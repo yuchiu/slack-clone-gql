@@ -1,20 +1,19 @@
 import React from "react";
 import Proptypes from "prop-types";
 import { Input } from "semantic-ui-react";
-import { SendMessageDiv } from "../../styles/viewTeam/SendMessage";
 
 class SendMessage extends React.Component {
   render() {
     return (
-      <SendMessageDiv>
+      <div className="send-messages-wrapper">
         <Input fluid placeholder={`# ${this.props.channelName}`} />
-      </SendMessageDiv>
+      </div>
     );
   }
 }
 
 SendMessage.propTypes = {
-  channelName: Proptypes.func
+  channelName: Proptypes.string
 };
 
 export default SendMessage;

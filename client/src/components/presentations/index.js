@@ -1,7 +1,7 @@
 import NavBar from "./NavBar";
-import SideBar from "./SideBar";
-import TeamBar from "./TeamBar";
+import Sidebar from "./Sidebar";
+import Teambar from "./Teambar";
 import Header from "./Header";
 import SendMessage from "./SendMessage";
 
-export { NavBar, SideBar, TeamBar, Header, SendMessage };
+export { NavBar, Sidebar, Teambar, Header, SendMessage };

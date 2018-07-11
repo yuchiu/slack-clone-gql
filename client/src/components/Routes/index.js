@@ -12,7 +12,7 @@ import {
   Register,
   NotFound,
   CreateTeam,
-  ViewTeam
+  WorkSpace
 } from "./AllRoutes";
 
 const isAuthenticated = () => {
@@ -53,7 +53,7 @@ class Routes extends React.Component {
           <Route path="/register" exact component={Register} />
           <Route path="/Login" exact component={Login} />
           <PrivateRoute path="/create-team" exact component={CreateTeam} />
-          <PrivateRoute path="/team" exact component={ViewTeam} />
+          <PrivateRoute path="/workspace" exact component={WorkSpace} />
           <Route component={NotFound} />
         </Switch>
       </Router>

@@ -1,53 +1,44 @@
 import React from "react";
 import Proptypes from "prop-types";
-import {
-  SideBarDiv,
-  PushLeft,
-  SideBarH1,
-  SideBarUl,
-  SideBarLi,
-  Green,
-  SideBarLiHeader
-} from "../../styles/viewTeam/SideBar";
 
-class SideBar extends React.Component {
+class Sidebar extends React.Component {
   render() {
     return (
-      <SideBarDiv>
-        <PushLeft>
-          <SideBarH1>{this.props.teamName}</SideBarH1>
+      <div className="sidebar-wrapper">
+        <div className="push-left-div">
+          <h1>{this.props.teamName}</h1>
           <br />
           {this.props.username}
           <br />
-        </PushLeft>
+        </div>
         <div>
-          <SideBarUl>
-            <SideBarLiHeader>Channels</SideBarLiHeader>
+          <ul>
+            <li>Channels</li>
             {this.props.channels.map(channel => (
-              <SideBarLi key={channel.id}># {channel.name}</SideBarLi>
+              <li key={channel.id}># {channel.name}</li>
             ))}
-          </SideBarUl>
+          </ul>
         </div>
         <div>
-          <SideBarUl>
-            <SideBarLiHeader>Direct Messages</SideBarLiHeader>
+          <ul>
+            <li>Direct Messages</li>
             {this.props.users.map(user => (
-              <SideBarLi key={user.id}>
-                <Green>●</Green>
+              <li key={user.id}>
+                <span className="green-span">●</span>
                 {user.name}
-              </SideBarLi>
+              </li>
             ))}
-          </SideBarUl>
+          </ul>
         </div>
-      </SideBarDiv>
+      </div>
     );
   }
 }
 
-SideBar.propTypes = {
-  channels: Proptypes.func,
+Sidebar.propTypes = {
+  channels: Proptypes.array,
   teamName: Proptypes.string,
   username: Proptypes.string,
-  users: Proptypes.func
+  users: Proptypes.array
 };
-export default SideBar;
+export default Sidebar;
