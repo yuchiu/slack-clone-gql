@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ViewTeamLayout = styled.div`
+export const ViewTeamLayoutDiv = styled.div`
   display: grid;
   height: 100vh;
   grid-template-columns: 100px 250px 1fr;

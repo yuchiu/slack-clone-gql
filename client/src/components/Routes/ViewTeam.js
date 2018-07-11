@@ -1,23 +1,21 @@
 import React from "react";
-import {
-  Channels,
-  Messages,
-  Teams,
-  Input,
-  Header,
-  ViewTeamLayout
-} from "../../styles/viewTeam";
+import { Channels, Teams, Header, SendMessage } from "../presentations";
+import { MessagesDiv, ViewTeamLayoutDiv } from "../../styles/viewTeam";
 
 class ViewTeam extends React.Component {
   render() {
     return (
-      <ViewTeamLayout>
-        <Teams>Teams</Teams>
-        <Channels>Channels</Channels>
-        <Header>Header</Header>
-        <Messages>Messages</Messages>
-        <Input>Input</Input>
-      </ViewTeamLayout>
+      <ViewTeamLayoutDiv>
+        <Teams teams={[{ id: 1, letter: "R" }, { id: 2, letter: "B" }]} />
+        <Channels
+          teamName={"My Team"}
+          channels={[{ id: 1, name: "general" }, { id: 2, name: "random" }]}
+          users={[{ id: 1, name: "slackbot" }, { id: 2, name: "user1" }]}
+        />
+        <Header channelName={"general"} />
+        <MessagesDiv>Messages</MessagesDiv>
+        <SendMessage channelName={"general"} />
+      </ViewTeamLayoutDiv>
     );
   }
 }

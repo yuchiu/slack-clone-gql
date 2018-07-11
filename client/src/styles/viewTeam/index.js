@@ -1,8 +1,15 @@
-import { Channels } from "./Channels";
-import { Header } from "./Header";
-import { Input } from "./Input";
-import { Teams } from "./Teams";
-import { Messages } from "./Messages";
-import { ViewTeamLayout } from "./ViewTeamLayout";
+import { ChannelsDiv } from "./Channels";
+import { HeaderDiv } from "./Header";
+import { SendMessageDiv } from "./SendMessage";
+import { TeamsDiv } from "./Teams";
+import { MessagesDiv } from "./Messages";
+import { ViewTeamLayoutDiv } from "./ViewTeamLayout";
 
-export { Channels, Header, Input, Teams, Messages, ViewTeamLayout };
+export {
+  ChannelsDiv,
+  HeaderDiv,
+  SendMessageDiv,
+  TeamsDiv,
+  MessagesDiv,
+  ViewTeamLayoutDiv
+};

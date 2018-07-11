@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Messages = styled.div`
+export const MessagesDiv = styled.div`
   grid-column: 3;
   grid-row: 2;
 `;
