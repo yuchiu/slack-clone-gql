@@ -1,6 +1,11 @@
 import React from "react";
 import decode from "jwt-decode";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 import {
   Home,
   Login,
@@ -42,7 +47,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 class Routes extends React.Component {
   render() {
     return (
-      <BrowserRouter>
+      <Router>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/register" exact component={Register} />
@@ -51,7 +56,7 @@ class Routes extends React.Component {
           <PrivateRoute path="/team" exact component={ViewTeam} />
           <Route component={NotFound} />
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
