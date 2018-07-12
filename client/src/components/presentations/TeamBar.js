@@ -1,10 +1,10 @@
 import React from "react";
 import Proptypes from "prop-types";
 
-class Teambar extends React.Component {
+class TeamBar extends React.Component {
   render() {
     return (
-      <div className="teambar-wrapper">
+      <div className="team-bar-wrapper">
         Teams
         <ul>
           {this.props.teams.map(team => <li key={team.id}>{team.letter}</li>)}
@@ -14,7 +14,7 @@ class Teambar extends React.Component {
   }
 }
 
-Teambar.propTypes = {
+TeamBar.propTypes = {
   teams: Proptypes.array
 };
-export default Teambar;
+export default TeamBar;

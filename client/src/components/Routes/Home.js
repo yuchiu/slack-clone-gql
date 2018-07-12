@@ -2,7 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
-import { NavBar } from "../presentations";
+import { NavBar } from "../containers";
 
 const getAllUsersQuery = gql`
   {

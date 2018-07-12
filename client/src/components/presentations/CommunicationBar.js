@@ -1,10 +1,10 @@
 import React from "react";
 import Proptypes from "prop-types";
 
-class Sidebar extends React.Component {
+class CommunicationBar extends React.Component {
   render() {
     return (
-      <div className="sidebar-wrapper">
+      <div className="communication-bar-wrapper">
         <div className="push-left-div">
           <h1>{this.props.teamName}</h1>
           <br />
@@ -35,10 +35,10 @@ class Sidebar extends React.Component {
   }
 }
 
-Sidebar.propTypes = {
+CommunicationBar.propTypes = {
   channels: Proptypes.array,
   teamName: Proptypes.string,
   username: Proptypes.string,
   users: Proptypes.array
 };
-export default Sidebar;
+export default CommunicationBar;

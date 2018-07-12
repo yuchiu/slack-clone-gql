@@ -6,7 +6,7 @@ class NotFound extends React.Component {
     return (
       <nav className="navbar">
         <Link to="/">Home</Link>
-        <Link to="/team">View Team</Link>
+        <Link to="/workspace">View Team</Link>
         <Link to="/login">Log In</Link>
         <Link to="/register">Register</Link>
       </nav>
