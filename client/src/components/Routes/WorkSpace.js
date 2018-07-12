@@ -6,7 +6,7 @@ class WorkSpace extends React.Component {
   render() {
     return (
       <div className="workspace-wrapper">
-        <SideBar />
+        <SideBar currentTeamId={1} />
         <Header channelName={"general"} />
         <div>Messages</div>
         <SendMessage channelName={"general"} />

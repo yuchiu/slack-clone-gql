@@ -1,5 +1,13 @@
 import { gql } from "apollo-boost";
 
+export const getAllUsersQuery = gql`
+  {
+    getAllUsers {
+      id
+      email
+    }
+  }
+`;
 export const createTeamMutation = gql`
   mutation($name: String!) {
     createTeam(name: $name) {

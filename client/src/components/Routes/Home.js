@@ -1,21 +1,13 @@
 import React from "react";
-import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import { NavBar } from "../containers";
-
-const getAllUsersQuery = gql`
-  {
-    getAllUsers {
-      id
-      email
-    }
-  }
-`;
+import { getAllUsersQuery } from "../../gql";
 
 class Home extends React.Component {
   displayUsers() {
     const { data } = this.props;
+    console.log(data);
     if (data.loading) {
       return <div>loading Users..</div>;
     }
