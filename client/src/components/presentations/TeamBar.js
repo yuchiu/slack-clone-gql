@@ -1,5 +1,6 @@
 import React from "react";
 import Proptypes from "prop-types";
+import { Link } from "react-router-dom";
 
 class TeamBar extends React.Component {
   render() {
@@ -7,7 +8,11 @@ class TeamBar extends React.Component {
       <div className="team-bar-wrapper">
         Teams
         <ul>
-          {this.props.teams.map(team => <li key={team.id}>{team.letter}</li>)}
+          {this.props.teams.map(team => (
+            <Link to={`/workspace/${team.id}`} key={team.id}>
+              <li>{team.letter}</li>
+            </Link>
+          ))}
         </ul>
       </div>
     );

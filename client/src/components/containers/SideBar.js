@@ -2,7 +2,7 @@ import React from "react";
 import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import decode from "jwt-decode";
-import _ from "lodash";
+import findIndex from "lodash/findIndex";
 import { CommunicationBar, TeamBar } from "../presentations";
 import { getAllTeamsQuery } from "../../gql";
 
@@ -25,8 +25,16 @@ class SideBar extends React.Component {
         </React.Fragment>
       );
     }
-    const teamIdx = _.findIndex(getAllTeams, ["id", currentTeamId]);
+    /*
+    find if we have the team Id,
+    if we do we can go to the teamId,
+    otherwise go to the first one which is "0"
+    */
+    const teamIdx = currentTeamId
+      ? findIndex(getAllTeams, ["id", parseInt(currentTeamId, 10)])
+      : 0;
     const team = getAllTeams[teamIdx];
+    console.log(getAllTeams);
     let username = "";
     try {
       const token = localStorage.getItem("token");

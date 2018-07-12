@@ -35,10 +35,10 @@ class CreateTeamForm extends React.Component {
       return;
     }
 
-    const { verified, errors } = response.data.createTeam;
+    const { verified, errors, team } = response.data.createTeam;
 
     if (verified) {
-      this.props.history.push("/workspace");
+      this.props.history.push(`/workspace/${team.id}`);
     } else {
       const err = {};
       errors.forEach(({ path, message }) => {
