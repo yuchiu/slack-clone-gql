@@ -52,7 +52,7 @@ class Routes extends React.Component {
           <Route path="/" exact component={Home} />
           <Route path="/register" exact component={Register} />
           <Route path="/Login" exact component={Login} />
-          <Route
+          <PrivateRoute
             path="/workspace/:teamId?/:channelId?"
             exact
             component={WorkSpace}

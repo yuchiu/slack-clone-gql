@@ -1,5 +1,6 @@
 import React from "react";
 import Proptypes from "prop-types";
+import { Icon } from "semantic-ui-react";
 
 class CommunicationBar extends React.Component {
   render() {
@@ -13,9 +14,12 @@ class CommunicationBar extends React.Component {
         </div>
         <div>
           <ul>
-            <li>Channels</li>
+            <li>
+              Channels
+              <Icon name="add circle" />
+            </li>
             {this.props.channels.map(channel => (
-              <li key={channel.id}># {channel.name}</li>
+              <li key={channel.id}># {channel.name} </li>
             ))}
           </ul>
         </div>

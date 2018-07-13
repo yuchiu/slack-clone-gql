@@ -2,12 +2,15 @@ import React from "react";
 import { graphql } from "react-apollo";
 import { Form, Input, Button, Message } from "semantic-ui-react";
 import Proptypes from "prop-types";
+import { InlineError } from "../presentations";
 import { registerMutation } from "../../gql";
+import { validateClientForm } from "../../utils";
 
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      clientErrors: {},
       username: "",
       email: "",
       password: "",
@@ -24,26 +27,37 @@ class RegisterForm extends React.Component {
     });
   }
 
+  // validate user's login info on client side
+  validateForm() {
+    const clientErrors = validateClientForm.signUp(this.state);
+    this.setState({ clientErrors });
+    if (Object.keys(clientErrors).length === 0) return true;
+    return false;
+  }
+
   async onSubmit() {
     this.setState({
       usernameError: "",
       emailError: "",
       passwordError: ""
     });
-    const { username, email, password } = this.state;
-    const response = await this.props.mutate({
-      variables: { username, email, password }
-    });
-    const { verified, errors } = response.data.register;
-
-    if (verified) {
-      this.props.history.push("/workspace");
-    } else {
-      const err = {};
-      errors.forEach(({ path, message }) => {
-        err[`${path}Error`] = message;
+    // check if any errors on client form, proceed to server if there's no errors
+    if (this.validateForm()) {
+      const { username, email, password } = this.state;
+      const response = await this.props.mutate({
+        variables: { username, email, password }
       });
-      this.setState(err);
+      const { verified, errors } = response.data.register;
+
+      if (verified) {
+        this.props.history.push("/workspace");
+      } else {
+        const err = {};
+        errors.forEach(({ path, message }) => {
+          err[`${path}Error`] = message;
+        });
+        this.setState(err);
+      }
     }
   }
 
@@ -52,6 +66,7 @@ class RegisterForm extends React.Component {
       username,
       email,
       password,
+      clientErrors,
       usernameError,
       emailError,
       passwordError
@@ -79,6 +94,7 @@ class RegisterForm extends React.Component {
               fluid
             />
           </Form.Field>
+          {clientErrors.email && <InlineError text={clientErrors.username} />}
           <Form.Field error={!!emailError}>
             <Input
               focus
@@ -89,6 +105,7 @@ class RegisterForm extends React.Component {
               fluid
             />
           </Form.Field>
+          {clientErrors.email && <InlineError text={clientErrors.email} />}
           <Form.Field error={!!passwordError}>
             <Input
               focus
@@ -100,6 +117,7 @@ class RegisterForm extends React.Component {
               fluid
             />
           </Form.Field>
+          {clientErrors.email && <InlineError text={clientErrors.password} />}
           <Button onClick={this.onSubmit.bind(this)}>Register</Button>
         </Form>
         {errorList.length ? (

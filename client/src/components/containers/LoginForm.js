@@ -2,12 +2,15 @@ import React from "react";
 import { graphql } from "react-apollo";
 import Proptypes from "prop-types";
 import { Form, Input, Button, Message } from "semantic-ui-react";
+import { InlineError } from "../presentations";
 import { loginMutation } from "../../gql";
+import { validateClientForm } from "../../utils";
 
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      clientErrors: {},
       email: "",
       password: "",
       emailError: "",
@@ -27,26 +30,46 @@ class LoginForm extends React.Component {
       emailError: "",
       passwordError: ""
     });
-    const { email, password } = this.state;
-    const response = await this.props.mutate({
-      variables: { email, password }
-    });
-    const { verified, token, refreshToken, errors } = response.data.login;
-    if (verified) {
-      localStorage.setItem("token", token);
-      localStorage.setItem("refreshToken", refreshToken);
-      this.props.history.push("/workspace");
-    } else {
-      const err = {};
-      errors.forEach(({ path, message }) => {
-        err[`${path}Error`] = message;
+    // validate user's login info on client side
+    const clientErrors = validateClientForm.signIn(this.state);
+    this.setState({ clientErrors });
+    // proceed to send data to server if there's no error
+    if (Object.keys(clientErrors).length === 0) {
+      const { email, password } = this.state;
+      const response = await this.props.mutate({
+        variables: { email, password }
       });
-      this.setState(err);
+      const { verified, token, refreshToken, errors } = response.data.login;
+      // validation info returned by server
+      if (verified) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("refreshToken", refreshToken);
+        this.props.history.push("/workspace");
+        this.setState({
+          error: {},
+          email: "",
+          password: "",
+          emailError: "",
+          passwordError: ""
+        });
+      } else {
+        const err = {};
+        errors.forEach(({ path, message }) => {
+          err[`${path}Error`] = message;
+        });
+        this.setState(err);
+      }
     }
   }
 
   render() {
-    const { email, password, emailError, passwordError } = this.state;
+    const {
+      email,
+      password,
+      clientErrors,
+      emailError,
+      passwordError
+    } = this.state;
     const errorList = [];
     if (emailError) {
       errorList.push(emailError);
@@ -67,6 +90,7 @@ class LoginForm extends React.Component {
               fluid
             />
           </Form.Field>
+          {clientErrors.email && <InlineError text={clientErrors.email} />}
           <Form.Field error={!!passwordError}>
             <Input
               focus
@@ -78,6 +102,10 @@ class LoginForm extends React.Component {
               fluid
             />
           </Form.Field>
+          {clientErrors.password && (
+            <InlineError text={clientErrors.password} />
+          )}
+          <br />
           <Button onClick={this.onSubmit.bind(this)}>Log In</Button>
         </Form>
         {errorList.length ? (
