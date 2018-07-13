@@ -28,27 +28,24 @@ class RegisterForm extends React.Component {
   }
 
   // validate user's login info on client side
-  validateForm() {
-    const clientErrors = validateClientForm.signUp(this.state);
-    this.setState({ clientErrors });
-    if (Object.keys(clientErrors).length === 0) return true;
-    return false;
-  }
-
   async onSubmit() {
     this.setState({
       usernameError: "",
       emailError: "",
       passwordError: ""
     });
-    // check if any errors on client form, proceed to server if there's no errors
-    if (this.validateForm()) {
+
+    // validate user's login info on client side
+    const clientErrors = validateClientForm.signUp(this.state);
+    this.setState({ clientErrors });
+    // proceed to send data to server if there's no error
+    if (Object.keys(clientErrors).length === 0) {
       const { username, email, password } = this.state;
       const response = await this.props.mutate({
         variables: { username, email, password }
       });
       const { verified, errors } = response.data.register;
-
+      // validation info returned by server
       if (verified) {
         this.props.history.push("/workspace");
       } else {
@@ -119,6 +116,7 @@ class RegisterForm extends React.Component {
           </Form.Field>
           {clientErrors.email && <InlineError text={clientErrors.password} />}
           <Button onClick={this.onSubmit.bind(this)}>Register</Button>
+          <br />
         </Form>
         {errorList.length ? (
           <Message error header="Errors with Register" list={errorList} />
