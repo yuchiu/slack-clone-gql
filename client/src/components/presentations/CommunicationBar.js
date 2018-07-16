@@ -16,7 +16,7 @@ class CommunicationBar extends React.Component {
           <ul>
             <li>
               Channels
-              <Icon name="add circle" />
+              <Icon name="add circle" onClick={this.props.onAddChannelClick} />
             </li>
             {this.props.channels.map(channel => (
               <li key={channel.id}># {channel.name} </li>

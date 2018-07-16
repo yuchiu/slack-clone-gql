@@ -3,32 +3,34 @@ import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import decode from "jwt-decode";
 import findIndex from "lodash/findIndex";
-import { CommunicationBar, TeamBar } from "../presentations";
+import { CommunicationBar, TeamBar, AddChannelModal } from "../presentations";
 import { getAllTeamsQuery } from "../../gql";
 
 class SideBar extends React.Component {
+  state = {
+    isModalOpen: false
+  };
+
+  handleCloseAddChannelModal = () => {
+    this.setState({ isModalOpen: false });
+  };
+
+  handleAddChannelClick = () => {
+    this.setState({ isModalOpen: true });
+  };
+
   loadTeams() {
     const {
       data: { loading, getAllTeams },
       currentTeamId
     } = this.props;
     if (loading) {
-      return (
-        <React.Fragment>
-          <TeamBar teams={[{ id: 0, letter: " " }]} />
-          <CommunicationBar
-            teamName={" "}
-            username={" "}
-            channels={[{ id: 0, name: " " }]}
-            users={[{ id: 0, name: " " }]}
-          />
-        </React.Fragment>
-      );
+      return null;
     }
     /*
     find if we have the team Id,
     if we do we can go to the teamId,
-    otherwise go to the first one which is "0"
+    otherwise go to the first team ID which is "0"
     */
     const teamIdx = currentTeamId
       ? findIndex(getAllTeams, ["id", parseInt(currentTeamId, 10)])
@@ -57,6 +59,12 @@ class SideBar extends React.Component {
           username={username}
           channels={team.channels}
           users={[{ id: 1, name: "slackbot" }, { id: 2, name: "user1" }]}
+          onAddChannelClick={this.handleAddChannelClick}
+        />
+        <AddChannelModal
+          open={this.state.isModalOpen}
+          onClose={this.handleCloseAddChannelModal}
+          key="sidebar-add-channel-modal"
         />
       </React.Fragment>
     );
