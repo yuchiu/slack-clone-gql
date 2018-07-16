@@ -7,25 +7,22 @@ import { loginMutation } from "../../gql";
 import { validateClientForm } from "../../utils";
 
 class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      clientErrors: {},
-      email: "",
-      password: "",
-      emailError: "",
-      passwordError: ""
-    };
-  }
+  state = {
+    clientErrors: {},
+    email: "",
+    password: "",
+    emailError: "",
+    passwordError: ""
+  };
 
-  onChange(e) {
+  onChange = e => {
     const { name, value } = e.target;
     this.setState({
       [name]: value
     });
-  }
+  };
 
-  async onSubmit() {
+  onSubmit = async () => {
     this.setState({
       emailError: "",
       passwordError: ""
@@ -60,7 +57,7 @@ class LoginForm extends React.Component {
         this.setState(err);
       }
     }
-  }
+  };
 
   render() {
     const {

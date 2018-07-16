@@ -8,6 +8,15 @@ export const getAllUsersQuery = gql`
     }
   }
 `;
+
+export const createChannelMutation = gql`
+  mutation($teamId: Int!, $name: String!) {
+    createChannel(teamId: $teamId, name: $name) {
+      verified
+    }
+  }
+`;
+
 export const createTeamMutation = gql`
   mutation($name: String!) {
     createTeam(name: $name) {

@@ -5,24 +5,21 @@ import { Form, Input, Button, Message } from "semantic-ui-react";
 import { createTeamMutation } from "../../gql";
 
 class CreateTeamForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      errors: {
-        nameError: ""
-      }
-    };
-  }
+  state = {
+    name: "",
+    errors: {
+      nameError: ""
+    }
+  };
 
-  onChange(e) {
+  onChange = e => {
     const { name, value } = e.target;
     this.setState({
       [name]: value
     });
-  }
+  };
 
-  async onSubmit() {
+  onSubmit = async () => {
     const { name } = this.state;
     let response = null;
 
@@ -46,7 +43,7 @@ class CreateTeamForm extends React.Component {
       });
       this.setState(err);
     }
-  }
+  };
 
   render() {
     const {

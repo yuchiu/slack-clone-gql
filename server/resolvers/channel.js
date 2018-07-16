@@ -3,10 +3,14 @@ export default {
     createChannel: async (parent, args, { models }) => {
       try {
         await models.Channel.create(args);
-        return true;
+        return {
+          verified: true,
+        };
       } catch (err) {
         console.log(err);
-        return false;
+        return {
+          verified: false,
+        };
       }
     },
   },

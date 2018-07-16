@@ -7,28 +7,25 @@ import { registerMutation } from "../../gql";
 import { validateClientForm } from "../../utils";
 
 class RegisterForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      clientErrors: {},
-      username: "",
-      email: "",
-      password: "",
-      usernameError: "",
-      emailError: "",
-      passwordError: ""
-    };
-  }
+  state = {
+    clientErrors: {},
+    username: "",
+    email: "",
+    password: "",
+    usernameError: "",
+    emailError: "",
+    passwordError: ""
+  };
 
-  onChange(e) {
+  onChange = e => {
     const { name, value } = e.target;
     this.setState({
       [name]: value
     });
-  }
+  };
 
   // validate user's login info on client side
-  async onSubmit() {
+  onSubmit = async () => {
     this.setState({
       usernameError: "",
       emailError: "",
@@ -56,7 +53,7 @@ class RegisterForm extends React.Component {
         this.setState(err);
       }
     }
-  }
+  };
 
   render() {
     const {

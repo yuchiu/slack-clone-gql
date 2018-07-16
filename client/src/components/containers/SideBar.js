@@ -3,7 +3,8 @@ import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import decode from "jwt-decode";
 import findIndex from "lodash/findIndex";
-import { CommunicationBar, TeamBar, AddChannelModal } from "../presentations";
+import AddChannelModal from "./AddChannelModal";
+import { CommunicationBar, TeamBar } from "../presentations";
 import { getAllTeamsQuery } from "../../gql";
 
 class SideBar extends React.Component {
@@ -36,7 +37,6 @@ class SideBar extends React.Component {
       ? findIndex(getAllTeams, ["id", parseInt(currentTeamId, 10)])
       : 0;
     const team = getAllTeams[teamIdx];
-    console.log(getAllTeams);
     let username = "";
     try {
       const token = localStorage.getItem("token");
@@ -65,6 +65,7 @@ class SideBar extends React.Component {
           open={this.state.isModalOpen}
           onClose={this.handleCloseAddChannelModal}
           key="sidebar-add-channel-modal"
+          teamId={currentTeamId}
         />
       </React.Fragment>
     );
@@ -77,7 +78,7 @@ class SideBar extends React.Component {
 
 SideBar.propTypes = {
   data: PropTypes.object,
-  currentTeamId: PropTypes.number
+  currentTeamId: PropTypes.string
 };
 
 export default graphql(getAllTeamsQuery)(SideBar);

@@ -18,6 +18,7 @@ export default {
           user,
         };
       } catch (err) {
+        console.log('inside user resolever');
         return {
           verified: false,
           errors: formatErrors(err, models),
