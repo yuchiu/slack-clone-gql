@@ -44,25 +44,21 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-class Routes extends React.Component {
-  render() {
-    return (
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/register" exact component={Register} />
-          <Route path="/Login" exact component={Login} />
-          <PrivateRoute
-            path="/workspace/:teamId?/:channelId?"
-            exact
-            component={WorkSpace}
-          />
-          <PrivateRoute path="/create-team" exact component={CreateTeam} />
-          <Route component={NotFound} />
-        </Switch>
-      </Router>
-    );
-  }
-}
+const Routes = () => (
+  <Router>
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/register" exact component={Register} />
+      <Route path="/Login" exact component={Login} />
+      <PrivateRoute
+        path="/workspace/:teamId?/:channelId?"
+        exact
+        component={WorkSpace}
+      />
+      <PrivateRoute path="/create-team" exact component={CreateTeam} />
+      <Route component={NotFound} />
+    </Switch>
+  </Router>
+);
 
 export default Routes;

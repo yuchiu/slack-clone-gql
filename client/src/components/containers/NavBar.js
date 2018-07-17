@@ -1,17 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Menu } from "semantic-ui-react";
 
-class NotFound extends React.Component {
+class NavBar extends React.Component {
   render() {
     return (
-      <nav className="navbar">
-        <Link to="/">Home</Link>
-        <Link to="/workspace">View Team</Link>
-        <Link to="/login">Log In</Link>
-        <Link to="/register">Register</Link>
-      </nav>
+      <Menu>
+        <Menu.Item>
+          <Link to="/">Slack</Link>
+        </Menu.Item>
+
+        <Menu.Item position="right">
+          <Link to="/login">Log In</Link>
+        </Menu.Item>
+        <Menu.Item position="right">
+          <Link to="/register">Register</Link>
+        </Menu.Item>
+        <Menu.Item position="right">
+          <Link to="/workspace">Your Workspaces</Link>
+        </Menu.Item>
+      </Menu>
     );
   }
 }
 
-export default NotFound;
+export default NavBar;

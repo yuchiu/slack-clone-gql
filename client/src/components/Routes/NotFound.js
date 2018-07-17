@@ -1,14 +1,10 @@
 import React from "react";
 import { NavBar } from "../containers";
 
-class NotFound extends React.Component {
-  render() {
-    return (
-      <div>
-        <NavBar />NotFound
-      </div>
-    );
-  }
-}
+const NotFound = () => (
+  <React.Fragment>
+    <NavBar />NotFound
+  </React.Fragment>
+);
 
 export default NotFound;
