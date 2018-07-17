@@ -2,6 +2,7 @@ import React from "react";
 import Proptypes from "prop-types";
 import { graphql } from "react-apollo";
 import findIndex from "lodash/findIndex";
+import { Redirect } from "react-router-dom";
 import { Header, SendMessage, SideBar, Messages } from "../presentations";
 import { allTeamsQuery } from "../../gql";
 
@@ -13,6 +14,9 @@ const ViewWorkspace = ({
 }) => {
   if (loading) {
     return null;
+  }
+  if (!allTeams.length) {
+    return <Redirect to="/create-team" />;
   }
   const teamIdx = teamId
     ? findIndex(allTeams, ["id", parseInt(teamId, 10)])
