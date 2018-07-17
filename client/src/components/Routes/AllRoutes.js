@@ -3,6 +3,6 @@ import Login from "./Login";
 import Register from "./Register";
 import NotFound from "./NotFound";
 import CreateTeam from "./CreateTeam";
-import WorkSpace from "./WorkSpace";
+import Workspace from "./Workspace";
 
-export { Home, Login, Register, NotFound, CreateTeam, WorkSpace };
+export { Home, Login, Register, NotFound, CreateTeam, Workspace };

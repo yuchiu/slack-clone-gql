@@ -3,7 +3,7 @@ import { tryLogin, formatErrors } from '../utils';
 export default {
   Query: {
     getUser: (parent, { id }, { models }) => models.User.findOne({ where: { id } }),
-    getAllUsers: (parent, args, { models }) => models.User.findAll(),
+    allUsers: (parent, args, { models }) => models.User.findAll(),
   },
   Mutation: {
     login: (parent,

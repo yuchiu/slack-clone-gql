@@ -2,10 +2,10 @@ import React from "react";
 import Proptypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const TeamBar = ({ teams }) => (
+const TeamBar = ({ allTeams }) => (
   <div className="team-bar-wrapper">
     <ul>
-      {teams.map(team => (
+      {allTeams.map(team => (
         <Link to={`/workspace/${team.id}`} key={team.id}>
           <li>{team.letter}</li>
         </Link>
@@ -15,6 +15,6 @@ const TeamBar = ({ teams }) => (
 );
 
 TeamBar.propTypes = {
-  teams: Proptypes.array
+  allTeams: Proptypes.array
 };
 export default TeamBar;

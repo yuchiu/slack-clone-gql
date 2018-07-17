@@ -4,7 +4,7 @@ export default {
   Query: {
     // verify if there is a user logged in before creating team
     // eslint-disable-next-line max-len
-    getAllTeams: permission.createResolver(async (parent, args, { models, user }) => models.Team.findAll({ where: { owner: user.id } }, { raw: true })),
+    allTeams: permission.createResolver(async (parent, args, { models, user }) => models.Team.findAll({ where: { owner: user.id } }, { raw: true })),
   },
   Mutation: {
     // verify if there is a user logged in before creating team

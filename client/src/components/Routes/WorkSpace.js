@@ -1,19 +1,15 @@
 import React from "react";
 import Proptypes from "prop-types";
-import { Header, SendMessage } from "../presentations";
-import { SideBar } from "../containers";
+import { ViewWorkspace } from "../containers";
 
-const WorkSpace = ({ match: { params } }) => (
+const WorkSpace = ({ match, history }) => (
   <div className="workspace-wrapper">
-    <SideBar currentTeamId={params.teamId} />
-    <Header channelName={"general"} />
-    <div>Messages</div>
-    <SendMessage channelName={"general"} />
+    <ViewWorkspace match={match} history={history} />
   </div>
 );
-
 WorkSpace.propTypes = {
-  params: Proptypes.object,
-  match: Proptypes.object
+  match: Proptypes.object,
+  history: Proptypes.object
 };
+
 export default WorkSpace;

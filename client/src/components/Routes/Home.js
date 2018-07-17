@@ -4,9 +4,9 @@ import { NavBar } from "../containers";
 class Home extends React.Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <NavBar />
-      </div>
+      </React.Fragment>
     );
   }
 }

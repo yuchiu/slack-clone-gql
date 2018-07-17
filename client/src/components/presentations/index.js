@@ -1,7 +1,7 @@
-import CommunicationBar from "./CommunicationBar";
-import TeamBar from "./TeamBar";
 import Header from "./Header";
 import SendMessage from "./SendMessage";
 import InlineError from "./InlineError";
+import SideBar from "./SideBar";
+import Messages from "./Messages";
 
-export { CommunicationBar, TeamBar, Header, SendMessage, InlineError };
+export { SideBar, Header, SendMessage, InlineError, Messages };

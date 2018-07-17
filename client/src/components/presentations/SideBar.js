@@ -1,11 +1,9 @@
 import React from "react";
-import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import decode from "jwt-decode";
-import findIndex from "lodash/findIndex";
-import AddChannelModal from "./AddChannelModal";
-import { CommunicationBar, TeamBar } from "../presentations";
-import { getAllTeamsQuery } from "../../gql";
+import AddChannelModal from "../containers/AddChannelModal";
+import TeamBar from "./TeamBar";
+import CommunicationBar from "./CommunicationBar";
 
 class SideBar extends React.Component {
   state = {
@@ -21,22 +19,7 @@ class SideBar extends React.Component {
   };
 
   loadTeams() {
-    const {
-      data: { loading, getAllTeams },
-      currentTeamId
-    } = this.props;
-    if (loading) {
-      return null;
-    }
-    /*
-    find if we have the team Id,
-    if we do we can go to the teamId,
-    otherwise go to the first team ID which is "0"
-    */
-    const teamIdx = currentTeamId
-      ? findIndex(getAllTeams, ["id", parseInt(currentTeamId, 10)])
-      : 0;
-    const team = getAllTeams[teamIdx];
+    const { allTeams, currentTeam } = this.props;
     let username = "";
     try {
       const token = localStorage.getItem("token");
@@ -49,16 +32,16 @@ class SideBar extends React.Component {
     return (
       <React.Fragment>
         <TeamBar
-          teams={getAllTeams.map(t => ({
+          allTeams={allTeams.map(t => ({
             id: t.id,
             letter: t.name.charAt(0).toUpperCase()
           }))}
         />
         <CommunicationBar
-          teamName={team.name}
+          teamName={currentTeam.name}
           username={username}
-          channels={team.channels}
-          teamId={team.id}
+          channels={currentTeam.channels}
+          teamId={currentTeam.id}
           users={[{ id: 1, name: "slackbot" }, { id: 2, name: "user1" }]}
           onAddChannelClick={this.handleAddChannelClick}
         />
@@ -66,7 +49,7 @@ class SideBar extends React.Component {
           open={this.state.isModalOpen}
           onClose={this.handleCloseAddChannelModal}
           key="sidebar-add-channel-modal"
-          teamId={team.id}
+          teamId={currentTeam.id}
         />
       </React.Fragment>
     );
@@ -78,8 +61,8 @@ class SideBar extends React.Component {
 }
 
 SideBar.propTypes = {
-  data: PropTypes.object,
-  currentTeamId: PropTypes.string
+  allTeams: PropTypes.array,
+  currentTeam: PropTypes.object
 };
 
-export default graphql(getAllTeamsQuery)(SideBar);
+export default SideBar;

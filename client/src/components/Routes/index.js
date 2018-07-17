@@ -12,7 +12,7 @@ import {
   Register,
   NotFound,
   CreateTeam,
-  WorkSpace
+  Workspace
 } from "./AllRoutes";
 
 const isAuthenticated = () => {
@@ -53,7 +53,7 @@ const Routes = () => (
       <PrivateRoute
         path="/workspace/:teamId?/:channelId?"
         exact
-        component={WorkSpace}
+        component={Workspace}
       />
       <PrivateRoute path="/create-team" exact component={CreateTeam} />
       <Route component={NotFound} />

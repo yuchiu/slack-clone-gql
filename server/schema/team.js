@@ -12,7 +12,7 @@ export default `
     errors: [Error!]
   }
   type Query {
-    getAllTeams: [Team!]
+    allTeams: [Team!]
   }
   type Mutation {
     createTeam(name: String!): CreateTeamResponse!

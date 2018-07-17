@@ -1,8 +1,8 @@
 import { gql } from "apollo-boost";
 
-export const getAllUsersQuery = gql`
+export const allUsersQuery = gql`
   {
-    getAllUsers {
+    allUsers {
       id
       email
     }
@@ -62,9 +62,9 @@ export const loginMutation = gql`
   }
 `;
 
-export const getAllTeamsQuery = gql`
+export const allTeamsQuery = gql`
   {
-    getAllTeams {
+    allTeams {
       id
       name
       channels {

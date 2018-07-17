@@ -3,7 +3,7 @@ import Proptypes from "prop-types";
 import { Modal, Input, Button, Form } from "semantic-ui-react";
 import { graphql } from "react-apollo";
 import findIndex from "lodash/findIndex";
-import { createChannelMutation, getAllTeamsQuery } from "../../gql";
+import { createChannelMutation, allTeamsQuery } from "../../gql";
 
 class AddChannelModal extends React.Component {
   state = {
@@ -27,11 +27,11 @@ class AddChannelModal extends React.Component {
         if (!verified) {
           return;
         }
-        const data = store.readQuery({ query: getAllTeamsQuery });
+        const data = store.readQuery({ query: allTeamsQuery });
         console.log(data);
-        const teamIdx = findIndex(data.getAllTeams, ["id", teamId]);
-        data.getAllTeams[teamIdx].channels.push(channel);
-        store.writeQuery({ query: getAllTeamsQuery, data });
+        const teamIdx = findIndex(data.allTeams, ["id", teamId]);
+        data.allTeams[teamIdx].channels.push(channel);
+        store.writeQuery({ query: allTeamsQuery, data });
       }
     });
     this.setState({ name: "" });
