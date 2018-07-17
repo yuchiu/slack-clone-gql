@@ -2,7 +2,8 @@ import React from "react";
 import Proptypes from "prop-types";
 import { Modal, Input, Button, Form } from "semantic-ui-react";
 import { graphql } from "react-apollo";
-import { createChannelMutation } from "../../gql";
+import findIndex from "lodash/findIndex";
+import { createChannelMutation, getAllTeamsQuery } from "../../gql";
 
 class AddChannelModal extends React.Component {
   state = {
@@ -20,11 +21,22 @@ class AddChannelModal extends React.Component {
     const { teamId, mutate, onClose, setSubmitting } = this.props;
     const { name } = this.state;
     await mutate({
-      variables: { teamId, name }
+      variables: { teamId, name },
+      update: (store, { data: { createChannel } }) => {
+        const { verified, channel } = createChannel;
+        if (!verified) {
+          return;
+        }
+        const data = store.readQuery({ query: getAllTeamsQuery });
+        console.log(data);
+        const teamIdx = findIndex(data.getAllTeams, ["id", teamId]);
+        data.getAllTeams[teamIdx].channels.push(channel);
+        store.writeQuery({ query: getAllTeamsQuery, data });
+      }
     });
+    this.setState({ name: "" });
     onClose();
     setSubmitting(false);
-    this.setState({ name: "" });
   };
 
   render() {
