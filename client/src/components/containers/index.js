@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm";
 import CreateTeamForm from "./CreateTeamForm";
 import AddChannelModal from "./AddChannelModal";
 import ViewWorkspace from "./ViewWorkspace";
+import InvitePeopleModal from "./InvitePeopleModal";
 
 export {
   NavBar,
@@ -11,5 +12,6 @@ export {
   LoginForm,
   RegisterForm,
   AddChannelModal,
-  ViewWorkspace
+  ViewWorkspace,
+  InvitePeopleModal
 };

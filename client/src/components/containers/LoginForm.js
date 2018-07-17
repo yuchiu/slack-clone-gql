@@ -77,7 +77,7 @@ class LoginForm extends React.Component {
     return (
       <React.Fragment>
         <Form>
-          <Form.Field error={!!emailError}>
+          <Form.Field error={emailError}>
             <Input
               focus
               placeholder="email"
@@ -88,7 +88,7 @@ class LoginForm extends React.Component {
             />
           </Form.Field>
           {clientErrors.email && <InlineError text={clientErrors.email} />}
-          <Form.Field error={!!passwordError}>
+          <Form.Field error={passwordError}>
             <Input
               focus
               type="password"

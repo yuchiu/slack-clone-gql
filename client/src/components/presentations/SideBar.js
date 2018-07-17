@@ -2,24 +2,35 @@ import React from "react";
 import PropTypes from "prop-types";
 import decode from "jwt-decode";
 import AddChannelModal from "../containers/AddChannelModal";
+import InvitePeopleModal from "../containers/InvitePeopleModal";
 import TeamBar from "./TeamBar";
 import CommunicationBar from "./CommunicationBar";
 
 class SideBar extends React.Component {
   state = {
-    isModalOpen: false
-  };
-
-  handleCloseAddChannelModal = () => {
-    this.setState({ isModalOpen: false });
+    isAddChannelModalOpen: false,
+    isInvitePeopleModalOpen: false
   };
 
   handleAddChannelClick = () => {
-    this.setState({ isModalOpen: true });
+    this.setState({ isAddChannelModalOpen: true });
+  };
+
+  handleCloseAddChannelModal = () => {
+    this.setState({ isAddChannelModalOpen: false });
+  };
+
+  handleInvitePeopleClick = () => {
+    this.setState({ isInvitePeopleModalOpen: true });
+  };
+
+  handleCloseInvitePeopleModal = () => {
+    this.setState({ isInvitePeopleModalOpen: false });
   };
 
   loadTeams() {
     const { allTeams, currentTeam } = this.props;
+    const { isAddChannelModalOpen, isInvitePeopleModalOpen } = this.state;
     let username = "";
     try {
       const token = localStorage.getItem("token");
@@ -44,11 +55,18 @@ class SideBar extends React.Component {
           teamId={currentTeam.id}
           users={[{ id: 1, name: "slackbot" }, { id: 2, name: "user1" }]}
           onAddChannelClick={this.handleAddChannelClick}
+          onInvitePeopleClick={this.handleInvitePeopleClick}
         />
         <AddChannelModal
-          open={this.state.isModalOpen}
+          open={isAddChannelModalOpen}
           onClose={this.handleCloseAddChannelModal}
           key="sidebar-add-channel-modal"
+          teamId={currentTeam.id}
+        />
+        <InvitePeopleModal
+          open={isInvitePeopleModalOpen}
+          onClose={this.handleCloseInvitePeopleModal}
+          key="sidebar-invite-people-modal"
           teamId={currentTeam.id}
         />
       </React.Fragment>

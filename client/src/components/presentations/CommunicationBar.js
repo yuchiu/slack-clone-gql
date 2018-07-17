@@ -9,7 +9,8 @@ const CommunicationBar = ({
   username,
   users,
   channels,
-  teamId
+  teamId,
+  onInvitePeopleClick
 }) => (
   <div className="communication-bar-wrapper">
     <div className="push-left-div communication-bar-header">
@@ -59,6 +60,9 @@ const CommunicationBar = ({
         ))}
       </ul>
     </div>
+    <div className="invite-button-section" onClick={onInvitePeopleClick}>
+      + invite People
+    </div>
   </div>
 );
 
@@ -67,6 +71,7 @@ CommunicationBar.propTypes = {
   channels: Proptypes.array,
   teamName: Proptypes.string,
   username: Proptypes.string,
+  onInvitePeopleClick: Proptypes.bool,
   users: Proptypes.array,
   teamId: Proptypes.number
 };
