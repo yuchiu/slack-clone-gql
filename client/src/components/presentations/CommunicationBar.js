@@ -1,13 +1,15 @@
 import React from "react";
 import Proptypes from "prop-types";
 import { Icon } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 const CommunicationBar = ({
   onAddChannelClick,
   teamName,
   username,
   users,
-  channels
+  channels,
+  teamId
 }) => (
   <div className="communication-bar-wrapper">
     <div className="push-left-div">
@@ -22,7 +24,11 @@ const CommunicationBar = ({
           Channels
           <Icon name="add circle" onClick={onAddChannelClick} />
         </li>
-        {channels.map(channel => <li key={channel.id}># {channel.name} </li>)}
+        {channels.map(channel => (
+          <Link key={channel.id} to={`/workspace/${teamId}/${channel.id}`}>
+            <li># {channel.name} </li>
+          </Link>
+        ))}
       </ul>
     </div>
     <div>
@@ -44,6 +50,7 @@ CommunicationBar.propTypes = {
   channels: Proptypes.array,
   teamName: Proptypes.string,
   username: Proptypes.string,
-  users: Proptypes.array
+  users: Proptypes.array,
+  teamId: Proptypes.number
 };
 export default CommunicationBar;
