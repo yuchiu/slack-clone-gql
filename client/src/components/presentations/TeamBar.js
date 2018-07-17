@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const TeamBar = ({ teams }) => (
   <div className="team-bar-wrapper">
-    Teams
     <ul>
       {teams.map(team => (
         <Link to={`/workspace/${team.id}`} key={team.id}>

@@ -9,9 +9,14 @@
 
   .header-wrapper {
     /* autoprefixer: off */
+    font-size: 1.4rem;
+    font-weight: 900;
     grid-column: 3;
     color: red;
     grid-row: 1;
+    text-align: center;
+    padding: $padding;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   }
 
   /* Messages Component */
@@ -35,29 +40,63 @@
     grid-column: 2;
     grid-row: 1/4;
     background-color: #4e3a4c;
-    color: #958993;
-    h1 {
-      color: #fff;
-      font-size: 20px;
-    }
+    color: rgba($white, 0.6);
     ul {
       width: 100%;
       list-style: none;
-      padding-left: 0px;
+      padding-left: $paddingLeft;
       li {
-        padding: 2px;
-        padding-left: 10px;
+        padding: 3px;
+        font-size: 15px;
+        padding-left: 5px;
         &:hover {
           background: #3e313c;
-          cursor: pointer;
         }
+      }
+      .channel_name {
+        color: rgba($white, 0.6);
       }
     }
     .push-left-div {
-      padding-left: 10px;
+      padding-left: $paddingLeft;
     }
     .green-span {
       color: #38978d;
+      padding-right: 3px;
+    }
+    .section-header {
+      font-size: 14px;
+      padding: 5px 0px;
+    }
+    .communication-bar-teamname {
+      font-size: 20px;
+      padding: 0px;
+      margin: 0px;
+      color: $white;
+    }
+    .communication-bar-username {
+      font-size: 13px;
+      padding: 0px;
+      margin: 0px;
+    }
+    .add-channel-button {
+      padding-left: 120px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .add-direct-message-button {
+      padding-left: 67px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .communication-bar-header {
+      padding: 15px 0px 10px $paddingLeft;
+      &:hover {
+        background: #3e313c;
+        cursor: pointer;
+      }
     }
   }
 
@@ -68,6 +107,7 @@
     grid-row: 1/4;
     background-color: #362234;
     color: #958993;
+    padding-top: 15px;
     ul {
       width: 100%;
       padding-left: 0px;
@@ -78,7 +118,7 @@
         background-color: #676066;
         color: #fff;
         margin: auto;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -88,7 +128,7 @@
           cursor: pointer;
           border-style: solid;
           border-width: thick;
-          border-color: #767676;
+          border-color: #857f87;
         }
       }
     }
