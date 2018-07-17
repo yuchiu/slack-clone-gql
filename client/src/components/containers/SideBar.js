@@ -65,7 +65,7 @@ class SideBar extends React.Component {
           open={this.state.isModalOpen}
           onClose={this.handleCloseAddChannelModal}
           key="sidebar-add-channel-modal"
-          teamId={currentTeamId}
+          teamId={team.id}
         />
       </React.Fragment>
     );
