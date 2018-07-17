@@ -21,6 +21,18 @@ export const createChannelMutation = gql`
   }
 `;
 
+export const addTeamMember = gql`
+  mutation($teamId: Int!, $email: String!) {
+    addTeamMember(email: $email, teamId: $teamId) {
+      verified
+      errors {
+        path
+        message
+      }
+    }
+  }
+`;
+
 export const createTeamMutation = gql`
   mutation($name: String!) {
     createTeam(name: $name) {

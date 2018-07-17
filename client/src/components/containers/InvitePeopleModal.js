@@ -2,11 +2,11 @@ import React from "react";
 import Proptypes from "prop-types";
 import { Modal, Input, Button, Form } from "semantic-ui-react";
 import { graphql } from "react-apollo";
-import { createChannelMutation } from "../../gql";
+import { addTeamMember } from "../../gql";
 
 class InvitePeopleModal extends React.Component {
   state = {
-    name: ""
+    email: ""
   };
 
   handleChange = e => {
@@ -18,18 +18,19 @@ class InvitePeopleModal extends React.Component {
 
   handleSubmit = async () => {
     const { teamId, mutate, onClose, setSubmitting } = this.props;
-    const { name } = this.state;
-    await mutate({
-      variables: { teamId, name }
+    const { email } = this.state;
+    const response = await mutate({
+      variables: { teamId, email }
     });
-    this.setState({ name: "" });
+    this.setState({ email: "" });
+    console.log(response);
     onClose();
     setSubmitting(false);
   };
 
   render() {
     const { open, onClose, handleBlur, isSubmitting } = this.props;
-    const { name } = this.state;
+    const { email } = this.state;
     return (
       <Modal open={open} onClose={onClose}>
         <Modal.Header>Invite People</Modal.Header>
@@ -37,20 +38,16 @@ class InvitePeopleModal extends React.Component {
           <Form>
             <Form.Field>
               <Input
-                value={name}
-                onChange={this.handleChange.bind(this)}
+                value={email}
+                onChange={this.handleChange}
                 onBlur={handleBlur}
-                name="name"
+                name="email"
                 fluid
-                placeholder="user email"
+                placeholder="User's Email"
               />
             </Form.Field>
             <Form.Group widths="equal">
-              <Button
-                disabled={isSubmitting}
-                onClick={this.handleSubmit.bind(this)}
-                fluid
-              >
+              <Button disabled={isSubmitting} onClick={this.handleSubmit} fluid>
                 Invite
               </Button>
               <Button disabled={isSubmitting} fluid onClick={onClose}>
@@ -73,4 +70,4 @@ InvitePeopleModal.propTypes = {
   mutate: Proptypes.func
 };
 
-export default graphql(createChannelMutation)(InvitePeopleModal);
+export default graphql(addTeamMember)(InvitePeopleModal);
