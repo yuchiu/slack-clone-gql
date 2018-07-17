@@ -3,10 +3,13 @@ import Proptypes from "prop-types";
 import { Modal, Input, Button, Form } from "semantic-ui-react";
 import { graphql } from "react-apollo";
 import { addTeamMember } from "../../gql";
+import { formatErrors } from "../../utils";
+import InlineError from "../presentations/InlineError";
 
 class InvitePeopleModal extends React.Component {
   state = {
-    email: ""
+    email: "",
+    emailError: ""
   };
 
   handleChange = e => {
@@ -17,20 +20,26 @@ class InvitePeopleModal extends React.Component {
   };
 
   handleSubmit = async () => {
-    const { teamId, mutate, onClose, setSubmitting } = this.props;
+    const { teamId, mutate, onClose } = this.props;
     const { email } = this.state;
     const response = await mutate({
       variables: { teamId, email }
     });
-    this.setState({ email: "" });
+
+    const { verified, errors } = response.data.addTeamMember;
     console.log(response);
-    onClose();
-    setSubmitting(false);
+    if (verified) {
+      this.setState({ email: "" });
+      onClose();
+    } else {
+      const emailError = formatErrors(errors).email[0];
+      this.setState({ emailError });
+    }
   };
 
   render() {
-    const { open, onClose, handleBlur, isSubmitting } = this.props;
-    const { email } = this.state;
+    const { open, onClose, handleBlur } = this.props;
+    const { email, emailError } = this.state;
     return (
       <Modal open={open} onClose={onClose}>
         <Modal.Header>Invite People</Modal.Header>
@@ -46,11 +55,12 @@ class InvitePeopleModal extends React.Component {
                 placeholder="User's Email"
               />
             </Form.Field>
+            {emailError && <InlineError text={emailError} />}
             <Form.Group widths="equal">
-              <Button disabled={isSubmitting} onClick={this.handleSubmit} fluid>
+              <Button onClick={this.handleSubmit} fluid>
                 Invite
               </Button>
-              <Button disabled={isSubmitting} fluid onClick={onClose}>
+              <Button fluid onClick={onClose}>
                 Cancel
               </Button>
             </Form.Group>
