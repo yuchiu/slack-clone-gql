@@ -5,6 +5,7 @@ export default {
     // eslint-disable-next-line max-len
     messages: permission.createResolver(async (parent, { channelId }, { models }) => {
       const messages = await models.Message.findAll({
+        order: [['created_at', 'ASC']],
         where: {
           channelId,
         },

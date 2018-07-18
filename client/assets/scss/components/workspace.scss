@@ -24,6 +24,10 @@
     /* autoprefixer: off */
     grid-column: 3;
     grid-row: 2;
+    .messages-container {
+      padding-left: $paddingLeft;
+      padding-top: $paddingLeft;
+    }
   }
 
   /* SendMessages Component */
