@@ -1,7 +1,8 @@
 import React from "react";
 import Proptypes from "prop-types";
 import { Container, Header } from "semantic-ui-react";
-import { NavBar, RegisterForm } from "../containers";
+import { RegisterForm } from "../containers";
+import { NavBar } from "../presentations";
 
 const Register = ({ history }) => (
   <React.Fragment>

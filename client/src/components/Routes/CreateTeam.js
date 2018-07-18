@@ -1,7 +1,8 @@
 import React from "react";
 import Proptypes from "prop-types";
 import { Container, Header } from "semantic-ui-react";
-import { NavBar, CreateTeamForm } from "../containers";
+import { CreateTeamForm } from "../containers";
+import { NavBar } from "../presentations";
 
 const CreateTeam = ({ history }) => (
   <React.Fragment>

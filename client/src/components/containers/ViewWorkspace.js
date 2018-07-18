@@ -3,7 +3,8 @@ import Proptypes from "prop-types";
 import { graphql } from "react-apollo";
 import findIndex from "lodash/findIndex";
 import { Redirect } from "react-router-dom";
-import { Header, SendMessage, SideBar, Messages } from "../presentations";
+import { Header, SideBar, Messages } from "../presentations";
+import SendMessage from "./SendMessage";
 import { allTeamsQuery } from "../../gql";
 
 const ViewWorkspace = ({

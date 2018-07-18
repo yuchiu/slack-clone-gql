@@ -1,5 +1,5 @@
 import React from "react";
-import { NavBar } from "../containers";
+import { NavBar } from "../presentations";
 
 const NotFound = () => (
   <React.Fragment>

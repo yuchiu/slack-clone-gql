@@ -12,14 +12,14 @@ class CreateTeamForm extends React.Component {
     }
   };
 
-  onChange = e => {
+  handleChange = e => {
     const { name, value } = e.target;
     this.setState({
       [name]: value
     });
   };
 
-  onSubmit = async () => {
+  handleSubmit = async () => {
     const { name } = this.state;
     let response = null;
 
@@ -63,11 +63,11 @@ class CreateTeamForm extends React.Component {
               name="name"
               placeholder="name"
               value={name}
-              onChange={this.onChange.bind(this)}
+              onChange={this.handleChange}
               fluid
             />
           </Form.Field>
-          <Button onClick={this.onSubmit.bind(this)}>CreateTeam</Button>
+          <Button onClick={this.handleSubmit}>CreateTeam</Button>
         </Form>
         {errorList.length ? (
           <Message error header="Errors with Register" list={errorList} />
