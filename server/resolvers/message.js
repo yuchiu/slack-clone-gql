@@ -1,9 +1,19 @@
+import { permission } from '../utils';
+
 export default {
   Query: {
-    messages: async (parent, args, { models, user }) => [],
+    // eslint-disable-next-line max-len
+    messages: permission.createResolver(async (parent, { channelId }, { models }) => {
+      const messages = await models.Message.findAll({
+        where: {
+          channelId,
+        },
+      }, { raw: true });
+      return messages;
+    }),
   },
   Mutation: {
-    createMessage: async (parent, args, { models, user }) => {
+    createMessage: permission.createResolver(async (parent, args, { models, user }) => {
       try {
         await models.Message.create({
           ...args,
@@ -14,6 +24,9 @@ export default {
         console.log(err);
         return false;
       }
-    },
+    }),
+  },
+  Message: {
+    user: ({ userId }, args, { models }) => models.User.findOne({ where: { id: userId } }),
   },
 };
