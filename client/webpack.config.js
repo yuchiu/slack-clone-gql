@@ -55,12 +55,12 @@ module.exports = {
     }),
     new Uglify(),
     new htmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html'),
+      template: path.join(__dirname, 'index.html'),
       hash: true
     })
   ] : [
     new htmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html'),
+      template: path.join(__dirname, 'index.html'),
       hash: true
     }),
     new webpack.HotModuleReplacementPlugin(),

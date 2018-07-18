@@ -8,11 +8,12 @@ export default `
   }
   type CreateTeamResponse{
     verified: Boolean!
-    team: Team!
+    team: Team
     errors: [Error!]
   }
   type Query {
-    allTeams: [Team!]
+    allTeams: [Team!]!
+    invitedTeams: [Team!]!
   }
 
   type VoidResponse {

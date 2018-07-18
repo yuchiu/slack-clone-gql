@@ -13,7 +13,7 @@ export default {
         console.log(err);
         return {
           verified: false,
-          errors: formatErrors(err),
+          errors: formatErrors(err, models),
         };
       }
     },

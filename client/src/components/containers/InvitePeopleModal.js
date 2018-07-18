@@ -38,7 +38,7 @@ class InvitePeopleModal extends React.Component {
   };
 
   render() {
-    const { open, onClose, handleBlur } = this.props;
+    const { open, onClose } = this.props;
     const { email, emailError } = this.state;
     return (
       <Modal open={open} onClose={onClose}>
@@ -49,7 +49,6 @@ class InvitePeopleModal extends React.Component {
               <Input
                 value={email}
                 onChange={this.handleChange}
-                onBlur={handleBlur}
                 name="email"
                 fluid
                 placeholder="User's Email"
@@ -72,12 +71,9 @@ class InvitePeopleModal extends React.Component {
 }
 
 InvitePeopleModal.propTypes = {
-  open: Proptypes.boolean,
-  onClose: Proptypes.func,
-  handleBlur: Proptypes.func,
-  isSubmitting: Proptypes.func,
-  setSubmitting: Proptypes.func,
-  mutate: Proptypes.func
+  mutate: Proptypes.func,
+  open: Proptypes.bool,
+  onClose: Proptypes.func
 };
 
 export default graphql(addTeamMember)(InvitePeopleModal);

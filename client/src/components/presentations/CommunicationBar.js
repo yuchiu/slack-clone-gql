@@ -71,7 +71,7 @@ CommunicationBar.propTypes = {
   channels: Proptypes.array,
   teamName: Proptypes.string,
   username: Proptypes.string,
-  onInvitePeopleClick: Proptypes.bool,
+  onInvitePeopleClick: Proptypes.func,
   users: Proptypes.array,
   teamId: Proptypes.number
 };

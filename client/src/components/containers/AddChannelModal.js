@@ -40,7 +40,7 @@ class AddChannelModal extends React.Component {
   };
 
   render() {
-    const { open, onClose, handleBlur, isSubmitting } = this.props;
+    const { open, onClose } = this.props;
     const { name } = this.state;
     return (
       <Modal open={open} onClose={onClose}>
@@ -51,21 +51,16 @@ class AddChannelModal extends React.Component {
               <Input
                 value={name}
                 onChange={this.handleChange.bind(this)}
-                onBlur={handleBlur}
                 name="name"
                 fluid
                 placeholder="Channel name"
               />
             </Form.Field>
             <Form.Group widths="equal">
-              <Button
-                disabled={isSubmitting}
-                onClick={this.handleSubmit.bind(this)}
-                fluid
-              >
+              <Button onClick={this.handleSubmit.bind(this)} fluid>
                 Create Channel
               </Button>
-              <Button disabled={isSubmitting} fluid onClick={onClose}>
+              <Button fluid onClick={onClose}>
                 Cancel
               </Button>
             </Form.Group>
@@ -77,12 +72,9 @@ class AddChannelModal extends React.Component {
 }
 
 AddChannelModal.propTypes = {
-  open: Proptypes.boolean,
-  onClose: Proptypes.func,
-  handleBlur: Proptypes.func,
-  isSubmitting: Proptypes.func,
-  setSubmitting: Proptypes.func,
-  mutate: Proptypes.func
+  mutate: Proptypes.func,
+  open: Proptypes.bool,
+  onClose: Proptypes.func
 };
 
 export default graphql(createChannelMutation)(AddChannelModal);

@@ -5,6 +5,18 @@ export default {
     // verify if there is a user logged in before creating team
     // eslint-disable-next-line max-len
     allTeams: permission.createResolver(async (parent, args, { models, user }) => models.Team.findAll({ where: { owner: user.id } }, { raw: true })),
+    // eslint-disable-next-line max-len
+    invitedTeams: permission.createResolver(async (parent, args, { models, user }) => models.Team.findAll(
+      {
+        include: [
+          {
+            model: models.User,
+            where: { id: user.id },
+          },
+        ],
+      },
+      { raw: true },
+    )),
   },
   Mutation: {
     // verify if there is a user logged in before creating team
@@ -37,7 +49,7 @@ export default {
         console.log(err);
         return {
           verified: false,
-          errors: formatErrors(err),
+          errors: formatErrors(err, models),
         };
       }
     }),
@@ -58,7 +70,7 @@ export default {
         console.log(err);
         return {
           verified: false,
-          errors: formatErrors(err),
+          errors: formatErrors(err, models),
         };
       }
     }),

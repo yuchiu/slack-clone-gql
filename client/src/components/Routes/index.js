@@ -1,5 +1,4 @@
 import React from "react";
-import decode from "jwt-decode";
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,18 +13,8 @@ import {
   CreateTeam,
   Workspace
 } from "./AllRoutes";
+import { isAuthenticated } from "../../utils";
 
-const isAuthenticated = () => {
-  const token = localStorage.getItem("token");
-  const refreshToken = localStorage.getItem("refreshToken");
-  try {
-    decode(token);
-    decode(refreshToken);
-  } catch (err) {
-    return false;
-  }
-  return true;
-};
 // eslint-disable-next-line react/prop-types
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
