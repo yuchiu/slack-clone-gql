@@ -3,8 +3,9 @@ import Proptypes from "prop-types";
 import { graphql } from "react-apollo";
 import findIndex from "lodash/findIndex";
 import { Redirect } from "react-router-dom";
-import { Header, SideBar, Messages } from "../presentations";
+import { Header, SideBar } from "../presentations";
 import SendMessage from "./SendMessage";
+import MessagesContainer from "./MessagesContainer";
 import { allTeamsQuery } from "../../gql";
 
 const ViewWorkspace = ({
@@ -49,9 +50,16 @@ const ViewWorkspace = ({
       <SideBar allTeams={combinedTeams} currentTeam={currentTeam} />
       {currentChannel && <Header channelName={currentChannel.name} />}
       {currentChannel && (
-        <Messages channelId={currentChannel.id}>messages</Messages>
+        <MessagesContainer channelId={currentChannel.id}>
+          messages
+        </MessagesContainer>
       )}
-      {currentChannel && <SendMessage channelName={currentChannel.name} />}
+      {currentChannel && (
+        <SendMessage
+          channelName={currentChannel.name}
+          channelId={currentChannel.id}
+        />
+      )}
     </React.Fragment>
   );
 };

@@ -5,6 +5,7 @@ import AddChannelModal from "./AddChannelModal";
 import ViewWorkspace from "./ViewWorkspace";
 import InvitePeopleModal from "./InvitePeopleModal";
 import SendMessage from "./SendMessage";
+import MessagesContainer from "./MessagesContainer";
 
 export {
   SendMessage,
@@ -13,5 +14,6 @@ export {
   RegisterForm,
   AddChannelModal,
   ViewWorkspace,
-  InvitePeopleModal
+  InvitePeopleModal,
+  MessagesContainer
 };

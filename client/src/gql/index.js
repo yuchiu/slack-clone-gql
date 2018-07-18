@@ -21,7 +21,7 @@ export const createChannelMutation = gql`
   }
 `;
 
-export const addTeamMember = gql`
+export const addTeamMemberMutation = gql`
   mutation($teamId: Int!, $email: String!) {
     addTeamMember(email: $email, teamId: $teamId) {
       verified
@@ -93,6 +93,25 @@ export const allTeamsQuery = gql`
         id
         name
       }
+    }
+  }
+`;
+
+export const createMessageMutation = gql`
+  mutation($channelId: Int!, $text: String!) {
+    createMessage(channelId: $channelId, text: $text)
+  }
+`;
+
+export const messagesQuery = gql`
+  query($channelId: Int!) {
+    messages(channelId: $channelId) {
+      id
+      text
+      user {
+        username
+      }
+      createdAt
     }
   }
 `;
