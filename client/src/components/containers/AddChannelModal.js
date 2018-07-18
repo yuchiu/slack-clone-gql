@@ -18,7 +18,7 @@ class AddChannelModal extends React.Component {
   };
 
   handleSubmit = async () => {
-    const { teamId, mutate, onClose, setSubmitting } = this.props;
+    const { teamId, mutate, onClose } = this.props;
     const { name } = this.state;
     await mutate({
       variables: { teamId, name },
@@ -36,7 +36,6 @@ class AddChannelModal extends React.Component {
     });
     this.setState({ name: "" });
     onClose();
-    setSubmitting(false);
   };
 
   render() {

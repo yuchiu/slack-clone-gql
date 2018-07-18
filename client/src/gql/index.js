@@ -79,6 +79,7 @@ export const allTeamsQuery = gql`
     allTeams {
       id
       name
+      owner
       channels {
         id
         name
@@ -87,6 +88,7 @@ export const allTeamsQuery = gql`
     invitedTeams {
       id
       name
+      owner
       channels {
         id
         name

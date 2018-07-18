@@ -10,6 +10,7 @@ const CommunicationBar = ({
   users,
   channels,
   teamId,
+  isOwner,
   onInvitePeopleClick
 }) => (
   <div className="communication-bar-wrapper">
@@ -30,11 +31,14 @@ const CommunicationBar = ({
         </div>
         <div>
           <h1 className="section-header">
-            CHANNELS<Icon
-              className="add-channel-button"
-              name="plus circle"
-              onClick={onAddChannelClick}
-            />
+            CHANNELS
+            {isOwner && (
+              <Icon
+                className="add-channel-button"
+                name="plus circle"
+                onClick={onAddChannelClick}
+              />
+            )}
           </h1>
         </div>
         {channels.map(channel => (
@@ -60,9 +64,11 @@ const CommunicationBar = ({
         ))}
       </ul>
     </div>
-    <div className="invite-button-section" onClick={onInvitePeopleClick}>
-      + invite People
-    </div>
+    {isOwner && (
+      <div className="invite-button-section" onClick={onInvitePeopleClick}>
+        + invite People
+      </div>
+    )}
   </div>
 );
 
@@ -70,6 +76,7 @@ CommunicationBar.propTypes = {
   onAddChannelClick: Proptypes.func,
   channels: Proptypes.array,
   teamName: Proptypes.string,
+  isOwner: Proptypes.bool,
   username: Proptypes.string,
   onInvitePeopleClick: Proptypes.func,
   users: Proptypes.array,
