@@ -2,7 +2,7 @@ import React from "react";
 import Proptypes from "prop-types";
 import { Modal, Input, Button, Form } from "semantic-ui-react";
 import { graphql } from "react-apollo";
-import { addTeamMemberMutation } from "../../gql";
+import { teamgql } from "../../gql";
 import { formatErrors } from "../../utils";
 import InlineError from "../presentations/InlineError";
 
@@ -76,4 +76,4 @@ InvitePeopleModal.propTypes = {
   onClose: Proptypes.func
 };
 
-export default graphql(addTeamMemberMutation)(InvitePeopleModal);
+export default graphql(teamgql.addTeamMemberMutation)(InvitePeopleModal);

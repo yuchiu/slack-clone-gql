@@ -3,7 +3,7 @@ import { graphql } from "react-apollo";
 import { Form, Input, Button, Message } from "semantic-ui-react";
 import Proptypes from "prop-types";
 import { InlineError } from "../presentations";
-import { registerMutation } from "../../gql";
+import { usergql } from "../../gql";
 import { validateClientForm } from "../../utils";
 
 class RegisterForm extends React.Component {
@@ -128,4 +128,4 @@ RegisterForm.propTypes = {
   history: Proptypes.object
 };
 
-export default graphql(registerMutation)(RegisterForm);
+export default graphql(usergql.registerMutation)(RegisterForm);

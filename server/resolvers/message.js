@@ -1,4 +1,9 @@
+import { PubSub, withFilter } from 'graphql-subscriptions';
 import { permission } from '../utils';
+import NEW_CHANNEL_MESSAGE from '../constants';
+
+const pubsub = new PubSub();
+
 
 export default {
   Query: {
@@ -13,12 +18,22 @@ export default {
       return messages;
     }),
   },
+  Subscription: {
+    newChannelMessage: {
+      // eslint-disable-next-line max-len
+      subscribe: withFilter(() => pubsub.asyncIterator(NEW_CHANNEL_MESSAGE), (payload, args) => payload.channelId === args.channelId),
+    },
+  },
   Mutation: {
     createMessage: permission.createResolver(async (parent, args, { models, user }) => {
       try {
-        await models.Message.create({
+        const message = await models.Message.create({
           ...args,
           userId: user.id,
+        });
+        pubsub.publish(NEW_CHANNEL_MESSAGE, {
+          channelId: args.channelId,
+          newChannelMessage: message.dataValues,
         });
         return true;
       } catch (err) {

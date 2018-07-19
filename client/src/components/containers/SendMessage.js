@@ -2,7 +2,7 @@ import React from "react";
 import Proptypes from "prop-types";
 import { Input, Form, Button } from "semantic-ui-react";
 import { graphql } from "react-apollo";
-import { createMessageMutation } from "../../gql";
+import { messagegql } from "../../gql";
 
 class SendMessage extends React.Component {
   state = {
@@ -59,4 +59,4 @@ class SendMessage extends React.Component {
 SendMessage.propTypes = {
   channelName: Proptypes.string
 };
-export default graphql(createMessageMutation)(SendMessage);
+export default graphql(messagegql.createMessageMutation)(SendMessage);

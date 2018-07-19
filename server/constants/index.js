@@ -1,0 +1,3 @@
+export default {
+  NEW_CHANNEL_MESSAGE: 'NEW_CHANNEL_MESSAGE',
+};

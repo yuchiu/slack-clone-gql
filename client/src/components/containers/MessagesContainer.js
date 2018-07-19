@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
 import { Comment } from "semantic-ui-react";
 import { Message } from "../presentations";
-import { messagesQuery } from "../../gql";
+import { messagegql } from "../../gql";
 
 class MessagesContainer extends React.Component {
   loadMessages() {
@@ -34,7 +34,7 @@ MessagesContainer.propTypes = {
   data: PropTypes.object
 };
 
-export default graphql(messagesQuery, {
+export default graphql(messagegql.messagesQuery, {
   variables: props => ({
     channelId: props.channelId
   })

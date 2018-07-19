@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 import { Header, SideBar } from "../presentations";
 import SendMessage from "./SendMessage";
 import MessagesContainer from "./MessagesContainer";
-import { allTeamsQuery } from "../../gql";
+import { teamgql } from "../../gql";
 
 const ViewWorkspace = ({
   data: { loading, allTeams, invitedTeams },
@@ -69,4 +69,4 @@ ViewWorkspace.propTypes = {
   params: Proptypes.object,
   match: Proptypes.object
 };
-export default graphql(allTeamsQuery)(ViewWorkspace);
+export default graphql(teamgql.allTeamsQuery)(ViewWorkspace);

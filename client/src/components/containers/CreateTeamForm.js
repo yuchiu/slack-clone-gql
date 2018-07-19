@@ -2,7 +2,7 @@ import React from "react";
 import { graphql } from "react-apollo";
 import Proptypes from "prop-types";
 import { Form, Input, Button, Message } from "semantic-ui-react";
-import { createTeamMutation } from "../../gql";
+import { teamgql } from "../../gql";
 
 class CreateTeamForm extends React.Component {
   state = {
@@ -82,4 +82,4 @@ CreateTeamForm.propTypes = {
   history: Proptypes.object
 };
 
-export default graphql(createTeamMutation)(CreateTeamForm);
+export default graphql(teamgql.createTeamMutation)(CreateTeamForm);
