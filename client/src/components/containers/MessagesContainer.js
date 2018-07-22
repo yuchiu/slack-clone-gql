@@ -6,23 +6,16 @@ import { Message } from "../presentations";
 import { messagegql } from "../../gql";
 
 class MessagesContainer extends React.Component {
-  loadMessages() {
+  render() {
     const {
       data: { loading, messages }
     } = this.props;
-    if (loading) {
-      return null;
-    }
-    return messages.map(message => (
-      <Message key={message.id} message={message} />
-    ));
-  }
-
-  render() {
-    return (
+    return loading ? null : (
       <div className="message-wrapper">
         <Comment.Group className="messages-container">
-          {this.loadMessages()}
+          {messages.map(message => (
+            <Message key={message.id} message={message} />
+          ))}
         </Comment.Group>
       </div>
     );

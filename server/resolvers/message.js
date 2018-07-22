@@ -21,7 +21,8 @@ export default {
   Subscription: {
     newChannelMessage: {
       // eslint-disable-next-line max-len
-      subscribe: withFilter(() => pubsub.asyncIterator(NEW_CHANNEL_MESSAGE), (payload, args) => payload.channelId === args.channelId),
+      subscribe: withFilter(() => pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
+        (payload, args) => payload.channelId === args.channelId),
     },
   },
   Mutation: {

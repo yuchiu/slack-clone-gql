@@ -30,7 +30,7 @@ class SideBar extends React.Component {
     }));
   };
 
-  loadTeams() {
+  render() {
     const { allTeams, currentTeam } = this.props;
     const { isAddChannelModalOpen, isInvitePeopleModalOpen } = this.state;
     let username = "";
@@ -76,10 +76,6 @@ class SideBar extends React.Component {
         />
       </React.Fragment>
     );
-  }
-
-  render() {
-    return <React.Fragment>{this.loadTeams()}</React.Fragment>;
   }
 }
 
