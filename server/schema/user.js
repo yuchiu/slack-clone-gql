@@ -1,5 +1,4 @@
 export default `
-
   type User {
     id: Int!
     username: String!
@@ -15,19 +14,18 @@ export default `
   type RegisterResponse {
     verified: Boolean!
     user: User
-    errors: [Error!]
+    errors: [Error]
   }
 
   type LoginResponse {
     verified: Boolean!
     token: String
     refreshToken: String
-    errors: [Error!]
+    errors: [Error]
   }
 
   type Mutation {
     register(username: String!, email: String!, password: String!): RegisterResponse!
     login(email: String!, password: String!): LoginResponse!
   }
-
 `;

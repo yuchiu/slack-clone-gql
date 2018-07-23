@@ -1,83 +1,99 @@
-import { formatErrors, permission } from '../utils';
+import formatErrors from "../utils/formatErrors";
+import requiresAuth from "../utils/permissions";
 
 export default {
   Query: {
-    // verify if there is a user logged in before creating team
-    // eslint-disable-next-line max-len
-    allTeams: permission.createResolver(async (parent, args, { models, user }) => models.Team.findAll({ where: { owner: user.id } }, { raw: true })),
-    // eslint-disable-next-line max-len
-    invitedTeams: permission.createResolver(async (parent, args, { models, user }) => models.Team.findAll(
-      {
-        include: [
-          {
-            model: models.User,
-            where: { id: user.id },
-          },
-        ],
-      },
-      { raw: true },
-    )),
+    allTeams: requiresAuth.createResolver((parent, args, { models, user }) =>
+      models.Team.findAll({ where: { owner: user.id } }, { raw: true })
+    ),
+    inviteTeams: requiresAuth.createResolver((parent, args, { models, user }) =>
+      models.sequelize.query(
+        "select * from teams join members on id = team_id where user_id = ?",
+        {
+          replacements: [user.id],
+          model: models.Team
+        }
+      )
+    )
   },
   Mutation: {
-    // verify if there is a user logged in before creating team
-    // eslint-disable-next-line max-len
-    addTeamMember: permission.createResolver(async (parent, { email, teamId }, { models, user }) => {
-      try {
-        // use promise to run both findOne in parallel
-        const teamPromise = models.Team.findOne({ where: { id: teamId } }, { raw: true });
-        const userToAddPromise = models.User.findOne({ where: { email } }, { raw: true });
-        const [team, userToAdd] = await Promise.all([teamPromise, userToAddPromise]);
-        // check if the user making this request is the owner
-        if (team.owner !== user.id) {
-          return {
-            verified: false,
-            errors: [{ path: 'email', message: 'Only team owner can add user to the team' }],
-          };
-        }
-        // check if the email user adding does exist
-        if (!userToAdd) {
-          return {
-            verified: false,
-            errors: [{ path: 'email', message: 'Could not find the user email you entered' }],
-          };
-        }
-        await models.Member.create({ userId: userToAdd.id, teamId });
-        return {
-          verified: true,
-        };
-      } catch (err) {
-        console.log(err);
-        return {
-          verified: false,
-          errors: formatErrors(err, models),
-        };
-      }
-    }),
-    createTeam: permission.createResolver(async (parent, args, { models, user }) => {
-      try {
-        const response = await models.sequelize.transaction(
-          async () => {
-            const team = await models.Team.create({ ...args, owner: user.id });
-            await models.Channel.create({ name: 'general', public: true, teamId: team.id });
-            return team;
-          },
-        );
-        return {
-          verified: true,
-          team: response,
-        };
-      } catch (err) {
-        console.log(err);
-        return {
-          verified: false,
-          errors: formatErrors(err, models),
-        };
-      }
-    }),
-  },
-  // not ideal
-  Team: {
-    channels: ({ id }, args, { models }) => models.Channel.findAll({ where: { teamId: id } }),
-  },
+    addTeamMember: requiresAuth.createResolver(
+      async (parent, { email, teamId }, { models, user }) => {
+        try {
+          const teamPromise = models.Team.findOne(
+            { where: { id: teamId } },
+            { raw: true }
+          );
+          const userToAddPromise = models.User.findOne(
+            { where: { email } },
+            { raw: true }
+          );
+          const [team, userToAdd] = await Promise.all([
+            teamPromise,
+            userToAddPromise
+          ]);
 
+          if (team.owner !== user.id) {
+            return {
+              verified: false,
+              errors: [
+                { path: "email", message: "You cannot add members to the team" }
+              ]
+            };
+          }
+
+          if (!userToAdd) {
+            return {
+              verified: false,
+              errors: [
+                {
+                  path: "email",
+                  message: "Could not find user with this email"
+                }
+              ]
+            };
+          }
+
+          await models.Member.create({ userId: userToAdd.id, teamId });
+          return {
+            verified: true
+          };
+        } catch (err) {
+          return {
+            verified: false,
+            errors: formatErrors(err, models)
+          };
+        }
+      }
+    ),
+    createTeam: requiresAuth.createResolver(
+      async (parent, args, { models, user }) => {
+        try {
+          const response = await models.sequelize.transaction(async () => {
+            const team = await models.Team.create({ ...args, owner: user.id });
+            // create default channels
+            await models.Channel.create({
+              name: "general",
+              public: true,
+              teamId: team.id
+            });
+            return team;
+          });
+          return {
+            verified: true,
+            team: response
+          };
+        } catch (err) {
+          return {
+            verified: false,
+            errors: formatErrors(err, models)
+          };
+        }
+      }
+    )
+  },
+  Team: {
+    channels: ({ id }, args, { models }) =>
+      models.Channel.findAll({ where: { teamId: id } })
+  }
 };

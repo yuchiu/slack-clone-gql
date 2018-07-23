@@ -1,24 +1,26 @@
 export default `
   type Team {
     id: Int!
-    owner: Int!
     name: String!
+    owner: Int!
     members: [User!]!
     channels: [Channel!]!
   }
-  type CreateTeamResponse{
+
+  type CreateTeamResponse {
     verified: Boolean!
     team: Team
     errors: [Error!]
-  }
-  type Query {
-    allTeams: [Team!]!
-    invitedTeams: [Team!]!
   }
 
   type VoidResponse {
     verified: Boolean!
     errors: [Error!]
+  }
+
+  type Query {
+    allTeams: [Team!]!
+    inviteTeams: [Team!]!
   }
 
   type Mutation {

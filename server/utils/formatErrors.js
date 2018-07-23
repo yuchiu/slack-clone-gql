@@ -1,9 +1,8 @@
-import _ from 'lodash';
+import pick from "lodash.pick";
 
 export default (e, models) => {
   if (e instanceof models.sequelize.ValidationError) {
-    //  _.pick({a: 1, b: 2}, 'a') => {a: 1}
-    return e.errors.map(x => _.pick(x, ['path', 'message']));
+    return e.errors.map(x => pick(x, ["path", "message"]));
   }
-  return [{ path: 'name', message: 'Unknown error' }];
+  return [{ path: "name", message: "something went wrong" }];
 };

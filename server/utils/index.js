@@ -1,11 +1,5 @@
-import permission from './permission';
-import formatErrors from './formatErrors';
-import { tryLogin, createTokens, refreshTokens } from './auth';
+import permissions from "./permissions";
+import formatErrors from "./formatErrors";
+import auth from "./auth";
 
-export {
-  permission,
-  formatErrors,
-  tryLogin,
-  createTokens,
-  refreshTokens,
-};
+export { permissions, formatErrors, auth };
