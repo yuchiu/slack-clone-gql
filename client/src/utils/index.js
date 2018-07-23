@@ -1,5 +1,5 @@
-import validateClientForm from "./validateClientForm";
 import formatErrors from "./formatErrors";
 import isAuthenticated from "./isAuthenticated";
+import validateClientForm from "./validateClientForm";
 
-export { validateClientForm, formatErrors, isAuthenticated };
+export { formatErrors, validateClientForm, isAuthenticated };

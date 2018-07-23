@@ -10,12 +10,12 @@ import { createServer } from "http";
 import { execute, subscribe } from "graphql";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 
+import models from "./models";
+import { auth } from "./utils/";
+
 // keys
 import SECRET1 from "./utils/SECRET1.json";
 import SECRET2 from "./utils/SECRET2.json";
-
-import models from "./models";
-import { auth } from "./utils/";
 
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, "./schema")));
 const resolvers = mergeResolvers(
@@ -47,8 +47,8 @@ const addUser = async (req, res, next) => {
         token,
         refreshToken,
         models,
-        SECRET1,
-        SECRET2
+        SECRET1.key,
+        SECRET2.key
       );
       if (newTokens.token && newTokens.refreshToken) {
         res.set("Access-Control-Expose-Headers", "x-token, x-refresh-token");

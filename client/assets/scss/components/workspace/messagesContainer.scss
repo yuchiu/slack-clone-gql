@@ -1,0 +1,19 @@
+/* Messages Component */
+.messages {
+  /* autoprefixer: off */
+  grid-column: 3;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* SendMessages Component */
+.send-messages {
+  /* autoprefixer: off */
+  grid-column: 3;
+  grid-row: 3;
+  margin: 15px;
+}

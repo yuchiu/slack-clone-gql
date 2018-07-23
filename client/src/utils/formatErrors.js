@@ -1,11 +1,10 @@
-import _ from "lodash";
-
 export default errors =>
-  errors.reduce((accumulator, currentValue) => {
-    if (currentValue.path in accumulator) {
-      accumulator[currentValue.path].push(currentValue.message);
+  errors.reduce((acc, cv) => {
+    if (cv.path in acc) {
+      acc[cv.path].push(cv.message);
     } else {
-      accumulator[currentValue.path] = [currentValue.message];
+      acc[cv.path] = [cv.message];
     }
-    return accumulator;
+
+    return acc;
   }, {});

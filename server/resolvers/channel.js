@@ -4,7 +4,7 @@ import requiresAuth from "../utils/permissions";
 export default {
   Mutation: {
     createChannel: requiresAuth.createResolver(
-      async (_, args, { models, user }) => {
+      async (parent, args, { models, user }) => {
         try {
           const team = await models.Team.findOne(
             { where: { id: args.teamId } },
