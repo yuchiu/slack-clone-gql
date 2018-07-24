@@ -1,8 +1,8 @@
-import { formatErrors, permissions } from "../utils/";
+import { formatErrors, authPermission } from "../utils/";
 
 export default {
   Mutation: {
-    addTeamMember: permissions.createResolver(
+    addTeamMember: authPermission.createResolver(
       async (parent, { email, teamId }, { models, user }) => {
         try {
           const memberPromise = models.Member.findOne(
@@ -51,7 +51,7 @@ export default {
         }
       }
     ),
-    createTeam: permissions.createResolver(
+    createTeam: authPermission.createResolver(
       async (parent, args, { models, user }) => {
         try {
           const response = await models.sequelize.transaction(async () => {

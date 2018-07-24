@@ -50,7 +50,7 @@ class CreateTeam extends Component {
       const { verified, errors, team } = response.data.createTeam;
 
       if (verified) {
-        this.props.history.push(`/workspace/${team.id}`);
+        this.props.history.push(`/workspace/view-channel/${team.id}`);
       } else {
         const err = {};
         errors.forEach(({ path, message }) => {

@@ -1,8 +1,8 @@
-import { permissions, formatErrors } from "../utils/";
+import { authPermission, formatErrors } from "../utils/";
 
 export default {
   Mutation: {
-    createChannel: permissions.createResolver(
+    createChannel: authPermission.createResolver(
       async (parent, args, { models, user }) => {
         try {
           const member = await models.Member.findOne(

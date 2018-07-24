@@ -1,8 +1,6 @@
 import React from "react";
 import Proptypes from "prop-types";
-import { graphql } from "react-apollo";
 import { Input, Form, Button } from "semantic-ui-react";
-import { createMessageMutation } from "../../graphql";
 
 class SendMessage extends React.Component {
   state = {
@@ -18,17 +16,15 @@ class SendMessage extends React.Component {
 
   handleSubmit = async () => {
     const { message } = this.state;
-    const { channelId, mutate } = this.props;
+    const { onSubmit } = this.props;
     if (message) {
-      await mutate({
-        variables: { channelId, text: message }
-      });
+      await onSubmit(message);
       this.setState({ message: "" });
     }
   };
 
   render() {
-    const { channelName } = this.props;
+    const { placeholder } = this.props;
     const { message } = this.state;
     return (
       <div className="send-messages">
@@ -40,7 +36,7 @@ class SendMessage extends React.Component {
                 focus
                 name="message"
                 value={message}
-                placeholder={`# ${channelName}`}
+                placeholder={`# ${placeholder}`}
                 onChange={this.handleChange}
               />
             </Form.Field>
@@ -55,6 +51,6 @@ class SendMessage extends React.Component {
 }
 
 SendMessage.propTypes = {
-  channelName: Proptypes.string
+  placeholder: Proptypes.string
 };
-export default graphql(createMessageMutation)(SendMessage);
+export default SendMessage;

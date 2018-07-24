@@ -6,7 +6,7 @@ import Home from "./home";
 import Register from "./register";
 import Login from "./login";
 import CreateTeam from "./createTeam";
-import Workspace from "./workspace";
+import { DirectMessage, ViewChannel } from "./workspace";
 
 const isAuthenticated = () => {
   const token = localStorage.getItem("token");
@@ -41,9 +41,14 @@ const Router = () => (
       <Route path="/register" exact component={Register} />
       <Route path="/login" exact component={Login} />
       <PrivateRoute
-        path="/workspace/:teamId?/:channelId?"
+        path="/workspace/view-channel/:teamId?/:channelId?"
         exact
-        component={Workspace}
+        component={ViewChannel}
+      />
+      <PrivateRoute
+        path="/workspace/direct-message/:teamId/:userId"
+        exact
+        component={DirectMessage}
       />
       <PrivateRoute path="/create-team" exact component={CreateTeam} />
     </Switch>

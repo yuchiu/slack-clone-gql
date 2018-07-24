@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const Channel = ({ channel, teamId }) => (
-  <Link to={`/workspace/${teamId}/${channel.id}`}>
+  <Link to={`/workspace/view-channel/${teamId}/${channel.id}`}>
     <li className="channelbar__List__item channelbar__List__item--link">
       # {channel.name}
     </li>

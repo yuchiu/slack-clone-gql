@@ -26,7 +26,7 @@ class NavBar extends React.Component {
               </Link>
             </Menu.Item>
             <Menu.Item position="right">
-              <Link to="/workspace">Your Workspaces</Link>
+              <Link to="/workspace/view-channel/">Your Workspaces</Link>
             </Menu.Item>
           </Menu>
         )}
@@ -43,7 +43,7 @@ class NavBar extends React.Component {
               <Link to="/register">Register</Link>
             </Menu.Item>
             <Menu.Item position="right">
-              <Link to="/workspace">Your Workspaces</Link>
+              <Link to="/workspace/view-channel/">Your Workspaces</Link>
             </Menu.Item>
           </Menu>
         )}

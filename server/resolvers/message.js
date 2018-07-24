@@ -1,6 +1,6 @@
 import { PubSub, withFilter } from "graphql-subscriptions";
 
-import { permissions } from "../utils/";
+import { authPermission, teamAccessPermission } from "../utils/";
 
 const pubsub = new PubSub();
 
@@ -9,10 +9,11 @@ const NEW_CHANNEL_MESSAGE = "NEW_CHANNEL_MESSAGE";
 export default {
   Subscription: {
     newChannelMessage: {
-      subscribe: withFilter(
-        (parent, { channelId }, { models, user }) =>
-          pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
-        (payload, args) => payload.channelId === args.channelId
+      subscribe: teamAccessPermission.createResolver(
+        withFilter(
+          () => pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
+          (payload, args) => payload.channelId === args.channelId
+        )
       )
     }
   },
@@ -26,7 +27,7 @@ export default {
     }
   },
   Query: {
-    messages: permissions.createResolver(
+    messages: authPermission.createResolver(
       async (parent, { channelId }, { models }) =>
         models.Message.findAll(
           { order: [["created_at", "ASC"]], where: { channelId } },
@@ -35,7 +36,7 @@ export default {
     )
   },
   Mutation: {
-    createMessage: permissions.createResolver(
+    createMessage: authPermission.createResolver(
       async (parent, args, { models, user }) => {
         try {
           const message = await models.Message.create({

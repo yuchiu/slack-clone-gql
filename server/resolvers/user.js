@@ -1,4 +1,4 @@
-import { auth, formatErrors, permissions } from "../utils/";
+import { auth, formatErrors, authPermission } from "../utils/";
 
 export default {
   User: {
@@ -15,7 +15,7 @@ export default {
   Query: {
     allUsers: (parent, args, { models }) => models.User.findAll(),
 
-    me: permissions.createResolver((parent, args, { models, user }) =>
+    me: authPermission.createResolver((parent, args, { models, user }) =>
       models.User.findOne({ where: { id: user.id } })
     )
   },

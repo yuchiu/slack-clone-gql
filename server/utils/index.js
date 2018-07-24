@@ -1,5 +1,5 @@
-import permissions from "./permissions";
+import { authPermission, teamAccessPermission } from "./permissions";
 import formatErrors from "./formatErrors";
 import auth from "./auth";
 
-export { permissions, formatErrors, auth };
+export { authPermission, teamAccessPermission, formatErrors, auth };
