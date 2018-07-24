@@ -4,7 +4,7 @@ import { ApolloProvider } from "react-apollo";
 import "../assets/scss/main.scss";
 
 import Routes from "./components/routes";
-import client from "./apollo";
+import client from "./apolloClient";
 
 const App = (
   <ApolloProvider client={client}>
