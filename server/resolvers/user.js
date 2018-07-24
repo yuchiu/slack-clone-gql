@@ -3,13 +3,14 @@ import formatErrors from "../utils/formatErrors";
 
 export default {
   Query: {
-    getUser: (_, { id }, { models }) => models.User.findOne({ where: { id } }),
-    allUsers: (_, args, { models }) => models.User.findAll()
+    getUser: (parent, { id }, { models }) =>
+      models.User.findOne({ where: { id } }),
+    allUsers: (parent, args, { models }) => models.User.findAll()
   },
   Mutation: {
-    login: (_, { email, password }, { models, SECRET, SECRET2 }) =>
+    login: (parent, { email, password }, { models, SECRET, SECRET2 }) =>
       auth.tryLogin(email, password, models, SECRET, SECRET2),
-    register: async (_, args, { models }) => {
+    register: async (parent, args, { models }) => {
       try {
         const user = await models.User.create(args);
 

@@ -2,8 +2,8 @@ import React, { Component, Fragment } from "react";
 import decode from "jwt-decode";
 
 import Proptypes from "prop-types";
-import Channels from "./Channels";
-import Teams from "./Teams";
+import Channelbar from "./Channelbar";
+import Teambar from "./Teambar";
 import AddChannelModel from "./AddChannelModal";
 import InvitePeopleModal from "./InvitePeopleModal";
 
@@ -45,12 +45,12 @@ class Sidebar extends Component {
 
     return (
       <Fragment>
-        <Teams
+        <Teambar
           className="team-bar-container"
           key="team-sidebar"
           teams={teams}
         />
-        <Channels
+        <Channelbar
           key="channels-sidebar"
           teamName={team.name}
           username={username}

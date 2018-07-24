@@ -3,39 +3,15 @@ import { Message, Form, Button, Input, Header } from "semantic-ui-react";
 import { graphql } from "react-apollo";
 import Proptypes from "prop-types";
 import { createTeamMutation } from "../../graphql";
-import { NavBar } from "../global";
+import { NavBar, InlineError } from "../global";
+import { validateClientForm } from "../../utils";
 
 class CreateTeam extends Component {
   state = {
     name: "",
+    clientErrors: {},
     errors: {
       nameError: ""
-    }
-  };
-
-  handleSubmit = async () => {
-    const { name } = this.state;
-    let response = null;
-
-    try {
-      response = await this.props.mutate({
-        variables: { name }
-      });
-    } catch (err) {
-      this.props.history.push("/login");
-      return;
-    }
-
-    const { verified, errors, team } = response.data.createTeam;
-
-    if (verified) {
-      this.props.history.push(`/workspace/${team.id}`);
-    } else {
-      const err = {};
-      errors.forEach(({ path, message }) => {
-        err[`${path}Error`] = message;
-      });
-      this.setState(err);
     }
   };
 
@@ -46,8 +22,48 @@ class CreateTeam extends Component {
     });
   };
 
+  handleSubmit = async () => {
+    this.setState({
+      errors: {
+        nameError: ""
+      }
+    });
+
+    // validate user's login info on client side
+    const clientErrors = validateClientForm.createTeam(this.state);
+    this.setState({ clientErrors });
+
+    // proceed to send data to server if there's no error
+    if (Object.keys(clientErrors).length === 0) {
+      const { name } = this.state;
+      let response = null;
+
+      try {
+        response = await this.props.mutate({
+          variables: { name }
+        });
+      } catch (err) {
+        this.props.history.push("/login");
+        return;
+      }
+
+      const { verified, errors, team } = response.data.createTeam;
+
+      if (verified) {
+        this.props.history.push(`/workspace/${team.id}`);
+      } else {
+        const err = {};
+        errors.forEach(({ path, message }) => {
+          err[`${path}Error`] = message;
+        });
+        this.setState(err);
+      }
+    }
+  };
+
   render() {
     const {
+      clientErrors,
       name,
       errors: { nameError }
     } = this.state;
@@ -71,6 +87,8 @@ class CreateTeam extends Component {
               fluid
             />
           </Form.Field>
+          {clientErrors.name && <InlineError text={clientErrors.name} />}
+          <br />
           <Button onClick={this.handleSubmit}>Submit</Button>
         </Form>
         {errorList.length > 0 ? (

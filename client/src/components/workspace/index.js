@@ -4,7 +4,7 @@ import findIndex from "lodash.findindex";
 import { Redirect } from "react-router-dom";
 
 import Proptypes from "prop-types";
-import Header from "./Header";
+import { Header } from "./presentations";
 import SendMessage from "./SendMessage";
 import Sidebar from "./Sidebar";
 import MessagesContainer from "./MessagesContainer";

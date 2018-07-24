@@ -1,18 +1,32 @@
 import React, { Component } from "react";
-import { Form, Message, Button, Input, Header } from "semantic-ui-react";
+import {
+  Form,
+  Message,
+  Button,
+  Input,
+  Header,
+  Container
+} from "semantic-ui-react";
 import { graphql } from "react-apollo";
 import Proptypes from "prop-types";
 import { registerMutation } from "../../graphql";
-import { NavBar } from "../global";
+import { NavBar, InlineError } from "../global";
+import { validateClientForm } from "../../utils";
 
 class Register extends Component {
   state = {
+    clientErrors: {},
     username: "",
     usernameError: "",
     email: "",
     emailError: "",
     password: "",
     passwordError: ""
+  };
+
+  handleChange = e => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
 
   handleSubmit = async () => {
@@ -22,28 +36,30 @@ class Register extends Component {
       passwordError: ""
     });
 
-    const { username, email, password } = this.state;
+    // validate user's login info on client side
+    const clientErrors = validateClientForm.signUp(this.state);
+    this.setState({ clientErrors });
 
-    const response = await this.props.mutate({
-      variables: { username, email, password }
-    });
-    const { verified, errors } = response.data.register;
+    // proceed to send data to server if there's no error
+    if (Object.keys(clientErrors).length === 0) {
+      const { username, email, password } = this.state;
 
-    if (verified) {
-      this.props.history.push("/login");
-    } else {
-      const err = {};
-      errors.forEach(({ path, message }) => {
-        err[`${path}Error`] = message;
+      const response = await this.props.mutate({
+        variables: { username, email, password }
       });
+      const { verified, errors } = response.data.register;
 
-      this.setState(err);
+      if (verified) {
+        this.props.history.push("/login");
+      } else {
+        const err = {};
+        errors.forEach(({ path, message }) => {
+          err[`${path}Error`] = message;
+        });
+
+        this.setState(err);
+      }
     }
-  };
-
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
   };
 
   render() {
@@ -53,7 +69,8 @@ class Register extends Component {
       password,
       usernameError,
       emailError,
-      passwordError
+      passwordError,
+      clientErrors
     } = this.state;
 
     const errorList = [];
@@ -73,47 +90,57 @@ class Register extends Component {
     return (
       <div className="register">
         <NavBar />
-        <Header as="h2">Register</Header>
-        <Form>
-          <Form.Field error={!!usernameError}>
-            <Input
-              name="username"
-              onChange={this.handleChange}
-              value={username}
-              type="text"
-              placeholder="Username"
-              fluid
+        <Container text>
+          <Header as="h2">Register</Header>
+          <Form>
+            <Form.Field error={!!usernameError}>
+              <Input
+                name="username"
+                onChange={this.handleChange}
+                value={username}
+                type="text"
+                placeholder="Username"
+                fluid
+              />
+            </Form.Field>
+            {clientErrors.username && (
+              <InlineError text={clientErrors.username} />
+            )}
+            <Form.Field error={!!emailError}>
+              <Input
+                name="email"
+                onChange={this.handleChange}
+                value={email}
+                type="email"
+                placeholder="Email"
+                fluid
+              />
+            </Form.Field>
+            {clientErrors.email && <InlineError text={clientErrors.email} />}
+            <Form.Field error={!!passwordError}>
+              <Input
+                name="password"
+                onChange={this.handleChange}
+                value={password}
+                type="password"
+                placeholder="Password"
+                fluid
+              />
+            </Form.Field>
+            {clientErrors.password && (
+              <InlineError text={clientErrors.password} />
+            )}
+            <br />
+            <Button onClick={this.handleSubmit}>Submit</Button>
+          </Form>
+          {errorList.length > 0 ? (
+            <Message
+              error
+              header="There was some errors with your submission."
+              list={errorList}
             />
-          </Form.Field>
-          <Form.Field error={!!emailError}>
-            <Input
-              name="email"
-              onChange={this.handleChange}
-              value={email}
-              type="email"
-              placeholder="Email"
-              fluid
-            />
-          </Form.Field>
-          <Form.Field error={!!passwordError}>
-            <Input
-              name="password"
-              onChange={this.handleChange}
-              value={password}
-              type="password"
-              placeholder="Password"
-              fluid
-            />
-          </Form.Field>
-          <Button onClick={this.handleSubmit}>Submit</Button>
-        </Form>
-        {errorList.length > 0 ? (
-          <Message
-            error
-            header="There was some errors with your submission."
-            list={errorList}
-          />
-        ) : null}
+          ) : null}
+        </Container>
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React from "react";
 import { graphql } from "react-apollo";
 import { Comment } from "semantic-ui-react";
 import Proptypes from "prop-types";
-import avatar from "../../../assets/img/avatar.png";
+import { Message } from "./presentations";
 import { newChannelMessageSubscription, messagesQuery } from "../../graphql";
 
 class MessagesContainer extends React.Component {
@@ -54,19 +54,7 @@ class MessagesContainer extends React.Component {
       <div className="messages">
         <Comment.Group>
           {messages.map(message => (
-            <Comment key={message.id}>
-              <Comment.Avatar src={avatar} />
-              <Comment.Content>
-                <Comment.Author as="a">{message.user.username}</Comment.Author>
-                <Comment.Metadata>
-                  <div>{message.created_at}</div>
-                </Comment.Metadata>
-                <Comment.Text>{message.text}</Comment.Text>
-                <Comment.Actions>
-                  <Comment.Action>Reply</Comment.Action>
-                </Comment.Actions>
-              </Comment.Content>
-            </Comment>
+            <Message key={message.id} message={message} />
           ))}
         </Comment.Group>
       </div>

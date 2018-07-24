@@ -1,12 +1,9 @@
 import React from "react";
 import { Icon } from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import Proptypes from "prop-types";
+import { Channel, User } from "./presentations";
 
-const Bubble = ({ on = true }) =>
-  on ? <span className="channelbar__List__bubble">●</span> : "○";
-
-const Channels = ({
+const Channelbar = ({
   teamName,
   username,
   channels,
@@ -19,8 +16,8 @@ const Channels = ({
   <div className="channelbar">
     <div className="channelbar__header">
       <h1 className="channelbar__header__teamname">
-        {teamName}
         <Icon className="team-bell" name="bell outline" />
+        {teamName}
       </h1>
       <h1 className="channelbar__header__username">{username}</h1>
     </div>
@@ -39,11 +36,7 @@ const Channels = ({
         )}
       </h1>
       {channels.map(channel => (
-        <Link key={channel.id} to={`/workspace/${teamId}/${channel.id}`}>
-          <li className="channelbar__List__item channelbar__List__item--link">
-            # {channel.name}
-          </li>
-        </Link>
+        <Channel key={channel.id} channel={channel} teamId={teamId} />
       ))}
     </ul>
     <ul className="channelbar__List">
@@ -54,12 +47,7 @@ const Channels = ({
         />
       </h1>
       {users.map(user => (
-        <li
-          className="channelbar__List__item  channelbar__List__item--link"
-          key={user.id}
-        >
-          <Bubble /> {username}
-        </li>
+        <User key={user.id} user={user} username={username} />
       ))}
     </ul>
     {isOwner && (
@@ -69,7 +57,7 @@ const Channels = ({
     )}
   </div>
 );
-Channels.propTypes = {
+Channelbar.propTypes = {
   onAddChannelClick: Proptypes.func,
   channels: Proptypes.array,
   teamName: Proptypes.string,
@@ -79,8 +67,5 @@ Channels.propTypes = {
   users: Proptypes.array,
   teamId: Proptypes.number
 };
-Bubble.propTypes = {
-  on: Proptypes.bool
-};
 
-export default Channels;
+export default Channelbar;

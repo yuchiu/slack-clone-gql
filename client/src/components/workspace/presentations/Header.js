@@ -2,7 +2,7 @@ import React from "react";
 import Proptypes from "prop-types";
 
 const Header = ({ channelName }) => (
-  <div className="header">
+  <div className="channel-header">
     <h1>#{channelName}</h1>
   </div>
 );

@@ -32,8 +32,8 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           len: {
-            args: [5, 100],
-            msg: "The password needs to be between 5 and 100 characteres long"
+            args: [4, 100],
+            msg: "The password needs to be between 4 and 100 characteres long"
           }
         }
       }
