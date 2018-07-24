@@ -49,7 +49,6 @@ class DirectMessagesContainer extends React.Component {
     const {
       data: { loading, directMessages }
     } = this.props;
-    console.log(directMessages);
     return loading ? null : (
       <div className="messages">
         <Comment.Group>

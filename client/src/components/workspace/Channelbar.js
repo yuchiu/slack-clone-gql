@@ -11,6 +11,7 @@ const Channelbar = ({
   onAddChannelClick,
   teamId,
   onInvitePeopleClick,
+  onDirectMessageClick,
   isOwner
 }) => (
   <div className="channelbar">
@@ -41,8 +42,10 @@ const Channelbar = ({
     </ul>
     <ul className="channelbar__List">
       <h1 className="channelbar__List__header">
-        DIRECT MESSAGES<Icon
+        DIRECT MESSAGES
+        <Icon
           className="channelbar__List__header__icon channelbar__List__header__icon--closer"
+          onClick={onDirectMessageClick}
           name="plus circle"
         />
       </h1>

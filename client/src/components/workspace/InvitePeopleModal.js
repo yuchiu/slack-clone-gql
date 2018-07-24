@@ -37,7 +37,6 @@ class InvitePeopleModal extends React.Component {
       });
 
       const { verified, errors } = response.data.addTeamMember;
-      console.log(response);
       if (verified) {
         this.setState({ email: "" });
         onClose();

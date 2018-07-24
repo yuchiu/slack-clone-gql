@@ -48,10 +48,9 @@ const DirectMessage = ({
       <DirectMessagesContainer teamId={teamId} userId={userId} />
       <SendMessage
         onSubmit={async text => {
-          const res = await mutate({
+          await mutate({
             variables: { text, receiverId: userId, teamId }
           });
-          console.log(res);
         }}
         placeholder={userId}
       />

@@ -4,11 +4,13 @@ import Channelbar from "./Channelbar";
 import Teambar from "./Teambar";
 import AddChannelModel from "./AddChannelModal";
 import InvitePeopleModal from "./InvitePeopleModal";
+import DirectMessageModal from "./DirectMessageModal";
 
 class Sidebar extends Component {
   state = {
     openAddChannelModal: false,
-    openInvitePeopleModal: false
+    openInvitePeopleModal: false,
+    openDirectMessageModal: false
   };
 
   toggleAddChannelModal = e => {
@@ -16,6 +18,15 @@ class Sidebar extends Component {
       e.preventDefault();
     }
     this.setState({ openAddChannelModal: !this.state.openAddChannelModal });
+  };
+
+  toggleDirectMessageModal = e => {
+    if (e) {
+      e.preventDefault();
+    }
+    this.setState({
+      openDirectMessageModal: !this.state.openDirectMessageModal
+    });
   };
 
   toggleInvitePeopleModal = e => {
@@ -27,7 +38,11 @@ class Sidebar extends Component {
 
   render() {
     const { teams, team, username } = this.props;
-    const { openInvitePeopleModal, openAddChannelModal } = this.state;
+    const {
+      openInvitePeopleModal,
+      openAddChannelModal,
+      openDirectMessageModal
+    } = this.state;
 
     return (
       <Fragment>
@@ -45,6 +60,7 @@ class Sidebar extends Component {
           users={[{ id: 1, name: "slackbot" }, { id: 2, name: "user1" }]}
           onAddChannelClick={this.toggleAddChannelModal}
           onInvitePeopleClick={this.toggleInvitePeopleModal}
+          onDirectMessageClick={this.toggleDirectMessageModal}
           isOwner={team.admin}
         />
         <AddChannelModel
@@ -52,6 +68,12 @@ class Sidebar extends Component {
           onClose={this.toggleAddChannelModal}
           open={openAddChannelModal}
           key="sidebar-add-channel-modal"
+        />
+        <DirectMessageModal
+          teamId={team.id}
+          onClose={this.toggleDirectMessageModal}
+          open={openDirectMessageModal}
+          key="sidebar-direct-message-modal"
         />
         <InvitePeopleModal
           teamId={team.id}

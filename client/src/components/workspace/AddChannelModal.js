@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Button, Modal, Message } from "semantic-ui-react";
-import Proptypes from "prop-types";
+import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
 import findIndex from "lodash.findindex";
 import { meQuery, createChannelMutation } from "../../graphql";
@@ -41,7 +41,6 @@ class AddChannelModal extends React.Component {
             return;
           }
           const data = store.readQuery({ query: meQuery });
-          console.log(data);
           const teamIdx = findIndex(data.me.teams, ["id", teamId]);
           data.me.teams[teamIdx].channels.push(channel);
           store.writeQuery({ query: meQuery, data });
@@ -97,9 +96,9 @@ class AddChannelModal extends React.Component {
   }
 }
 AddChannelModal.propTypes = {
-  mutate: Proptypes.func,
-  open: Proptypes.bool,
-  onClose: Proptypes.func
+  mutate: PropTypes.func,
+  open: PropTypes.bool,
+  onClose: PropTypes.func
 };
 
 export default graphql(createChannelMutation)(AddChannelModal);
