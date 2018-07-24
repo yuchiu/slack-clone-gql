@@ -9,7 +9,8 @@ import { allUsersQuery, registerMutation, loginMutation } from "./usergql";
 import {
   createDirectMessageMutation,
   directMessagesQuery,
-  directMessageMeQuery
+  directMessageMeQuery,
+  newDirectMessageSubscription
 } from "./directMessagegql";
 
 export {
@@ -25,5 +26,6 @@ export {
   newChannelMessageSubscription,
   createDirectMessageMutation,
   directMessagesQuery,
-  directMessageMeQuery
+  directMessageMeQuery,
+  newDirectMessageSubscription
 };

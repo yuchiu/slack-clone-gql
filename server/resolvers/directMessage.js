@@ -1,8 +1,27 @@
-import { authPermission } from "../utils/";
+import { withFilter } from "graphql-subscriptions";
 
-const NEW_CHANNEL_MESSAGE = "NEW_CHANNEL_MESSAGE";
+import { authPermission, pubsub, directMessagePermission } from "../utils/";
+
+const NEW_DIRECT_MESSAGE = "NEW_DIRECT_MESSAGE";
 
 export default {
+  Subscription: {
+    newDirectMessage: {
+      subscribe: directMessagePermission.createResolver(
+        withFilter(
+          () => pubsub.asyncIterator(NEW_DIRECT_MESSAGE),
+          (payload, args, { user }) =>
+            // check if the team are correct
+            payload.teamId === args.teamId &&
+            // check if both users are either sender or receiver
+            ((payload.senderId === user.id &&
+              payload.receiverId === args.userId) ||
+              (payload.senderId === args.userId &&
+                payload.receiverId === user.id))
+        )
+      )
+    }
+  },
   DirectMessage: {
     sender: ({ sender, senderId }, args, { models }) => {
       if (sender) {
@@ -49,23 +68,17 @@ export default {
             senderId: user.id
           });
 
-          //   const asyncFunc = async () => {
-          //     const currentUser = await models.User.findOne({
-          //       where: {
-          //         id: user.id
-          //       }
-          //     });
-
-          //     pubsub.publish(NEW_CHANNEL_MESSAGE, {
-          //       channelId: args.channelId,
-          //       newChannelMessage: {
-          //         ...message.dataValues,
-          //         user: currentUser.dataValues
-          //       }
-          //     });
-          //   };
-
-          //   asyncFunc();
+          pubsub.publish(NEW_DIRECT_MESSAGE, {
+            teamId: args.teamId,
+            senderId: user.id,
+            receiverId: args.receiverId,
+            newDirectMessage: {
+              ...directMessage.dataValues,
+              sender: {
+                username: user.username
+              }
+            }
+          });
 
           return true;
         } catch (err) {

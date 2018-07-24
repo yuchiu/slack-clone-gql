@@ -1,8 +1,6 @@
-import { PubSub, withFilter } from "graphql-subscriptions";
+import { withFilter } from "graphql-subscriptions";
 
-import { authPermission, teamAccessPermission } from "../utils/";
-
-const pubsub = new PubSub();
+import { authPermission, teamAccessPermission, pubsub } from "../utils/";
 
 const NEW_CHANNEL_MESSAGE = "NEW_CHANNEL_MESSAGE";
 

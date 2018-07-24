@@ -3,47 +3,54 @@ import { graphql } from "react-apollo";
 import { Comment } from "semantic-ui-react";
 import Proptypes from "prop-types";
 import { Message } from "./presentations";
-import { directMessagesQuery } from "../../graphql";
+import {
+  directMessagesQuery,
+  newDirectMessageSubscription
+} from "../../graphql";
 
 class DirectMessagesContainer extends React.Component {
   // eslint-disable-next-line camelcase
-  // UNSAFE_componentWillMount() {
-  //   this.unsubscribe = this.subscribe(this.props.channelId);
-  // }
+  UNSAFE_componentWillMount() {
+    this.unsubscribe = this.subscribe(this.props.teamId, this.props.userId);
+  }
 
-  // // eslint-disable-next-line camelcase
-  // UNSAFE_componentWillReceiveProps({ channelId }) {
-  //   if (this.props.channelId !== channelId) {
-  //     if (this.unsubscribe) {
-  //       this.unsubscribe();
-  //     }
-  //     this.unsubscribe = this.subscribe(channelId);
-  //   }
-  // }
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ teamId, userId }) {
+    if (this.props.teamId !== teamId || this.props.userId !== userId) {
+      if (this.unsubscribe) {
+        this.unsubscribe();
+      }
+      this.unsubscribe = this.subscribe(teamId, userId);
+    }
+  }
 
-  // componentWillUnmount() {
-  //   if (this.unsubscribe) {
-  //     this.unsubscribe();
-  //   }
-  // }
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
 
-  // subscribe = channelId =>
-  //   this.props.data.subscribeToMore({
-  //     document: newChannelMessageSubscription,
-  //     variables: {
-  //       channelId
-  //     },
-  //     updateQuery: (prev, { subscriptionData }) => {
-  //       if (!subscriptionData.data) {
-  //         return prev;
-  //       }
+  subscribe = (teamId, userId) =>
+    this.props.data.subscribeToMore({
+      document: newDirectMessageSubscription,
+      variables: {
+        teamId,
+        userId
+      },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
 
-  //       return {
-  //         ...prev,
-  //         messages: [...prev.messages, subscriptionData.data.newChannelMessage]
-  //       };
-  //     }
-  //   });
+        return {
+          ...prev,
+          directMessages: [
+            ...prev.directMessages,
+            subscriptionData.data.newDirectMessage
+          ]
+        };
+      }
+    });
 
   render() {
     const {
@@ -65,7 +72,8 @@ class DirectMessagesContainer extends React.Component {
   }
 }
 DirectMessagesContainer.propTypes = {
-  channelId: Proptypes.number,
+  teamId: Proptypes.number,
+  userId: Proptypes.number,
   data: Proptypes.object
 };
 
