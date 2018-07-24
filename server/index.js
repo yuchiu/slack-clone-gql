@@ -98,11 +98,9 @@ models.sequelize.sync().then(() => {
         schema,
         onConnect: async ({ token, refreshToken }, webSocket) => {
           if (token && refreshToken) {
-            let user = null;
             try {
-              const payload = jwt.verify(token, SECRET1.key);
-              // eslint-disable-next-line prefer-destructuring
-              user = payload.user;
+              const { user } = jwt.verify(token, SECRET1.key);
+              return { models, user };
             } catch (err) {
               const newTokens = await auth.refreshTokens(
                 token,
@@ -111,15 +109,10 @@ models.sequelize.sync().then(() => {
                 SECRET1.key,
                 SECRET2.key
               );
-              // eslint-disable-next-line prefer-destructuring
-              user = newTokens.user;
+              return { models, user: newTokens.user };
             }
-            if (!user) {
-              throw new Error("Invalid auth tokens");
-            }
-            return true;
           }
-          throw new Error("Missing auth tokens");
+          return { models };
         }
       },
       {

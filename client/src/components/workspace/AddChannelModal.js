@@ -3,7 +3,7 @@ import { Form, Input, Button, Modal, Message } from "semantic-ui-react";
 import Proptypes from "prop-types";
 import { graphql } from "react-apollo";
 import findIndex from "lodash.findindex";
-import { allTeamsQuery, createChannelMutation } from "../../graphql";
+import { meQuery, createChannelMutation } from "../../graphql";
 import { InlineError } from "../global";
 import { validateClientForm } from "../../utils";
 
@@ -40,11 +40,11 @@ class AddChannelModal extends React.Component {
           if (!verified) {
             return;
           }
-          const data = store.readQuery({ query: allTeamsQuery });
+          const data = store.readQuery({ query: meQuery });
           console.log(data);
-          const teamIdx = findIndex(data.allTeams, ["id", teamId]);
-          data.allTeams[teamIdx].channels.push(channel);
-          store.writeQuery({ query: allTeamsQuery, data });
+          const teamIdx = findIndex(data.me.teams, ["id", teamId]);
+          data.me.teams[teamIdx].channels.push(channel);
+          store.writeQuery({ query: meQuery, data });
         }
       });
       this.setState({ name: "" });

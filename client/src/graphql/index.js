@@ -4,18 +4,14 @@ import {
   messagesQuery,
   newChannelMessageSubscription
 } from "./messagegql";
-import {
-  allTeamsQuery,
-  addTeamMemberMutation,
-  createTeamMutation
-} from "./teamgql";
+import { meQuery, addTeamMemberMutation, createTeamMutation } from "./teamgql";
 import { allUsersQuery, registerMutation, loginMutation } from "./usergql";
 
 export {
   createChannelMutation,
   createMessageMutation,
   messagesQuery,
-  allTeamsQuery,
+  meQuery,
   addTeamMemberMutation,
   createTeamMutation,
   registerMutation,

@@ -8,10 +8,10 @@ import { Header } from "./presentations";
 import SendMessage from "./SendMessage";
 import Sidebar from "./Sidebar";
 import MessagesContainer from "./MessagesContainer";
-import { allTeamsQuery } from "../../graphql";
+import { meQuery } from "../../graphql";
 
 const Workspace = ({
-  data: { loading, allTeams, inviteTeams },
+  data: { loading, me },
   match: {
     params: { teamId, channelId }
   }
@@ -21,7 +21,7 @@ const Workspace = ({
   }
 
   // combined invited teams and owner's teams
-  const teams = [...allTeams, ...inviteTeams];
+  const { teams, username } = me;
 
   if (!teams.length) {
     return <Redirect to="/create-team" />;
@@ -52,6 +52,7 @@ const Workspace = ({
           letter: t.name.charAt(0).toUpperCase()
         }))}
         team={team}
+        username={username}
       />
       {channel && <Header channelName={channel.name} />}
       {channel && <MessagesContainer channelId={channel.id} />}
@@ -67,4 +68,8 @@ Workspace.propTypes = {
   match: Proptypes.object
 };
 
-export default graphql(allTeamsQuery)(Workspace);
+export default graphql(meQuery, {
+  options: {
+    fetchPolicy: "network-only"
+  }
+})(Workspace);

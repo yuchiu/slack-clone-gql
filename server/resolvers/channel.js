@@ -1,16 +1,15 @@
-import formatErrors from "../utils/formatErrors";
-import requiresAuth from "../utils/permissions";
+import { permissions, formatErrors } from "../utils/";
 
 export default {
   Mutation: {
-    createChannel: requiresAuth.createResolver(
+    createChannel: permissions.createResolver(
       async (parent, args, { models, user }) => {
         try {
-          const team = await models.Team.findOne(
-            { where: { id: args.teamId } },
+          const member = await models.Member.findOne(
+            { where: { teamId: args.teamId, userId: user.id } },
             { raw: true }
           );
-          if (team.owner !== user.id) {
+          if (!member.admin) {
             return {
               verified: false,
               errors: [
