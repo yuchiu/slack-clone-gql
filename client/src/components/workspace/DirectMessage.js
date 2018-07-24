@@ -3,13 +3,14 @@ import { graphql, compose } from "react-apollo";
 import findIndex from "lodash.findindex";
 import { Redirect } from "react-router-dom";
 
-import Proptypes from "prop-types";
+import PropTypes from "prop-types";
 import { Header, SendMessage } from "./presentations";
 import Sidebar from "./Sidebar";
-import MessagesContainer from "./MessagesContainer";
-import { meQuery, createMessageMutation } from "../../graphql";
+import DirectMessagesContainer from "./DirectMessagesContainer";
+import { meQuery, createDirectMessageMutation } from "../../graphql";
 
-const Workspace = ({
+const DirectMessage = ({
+  mutate,
   data: { loading, me },
   match: {
     params: { teamId, userId }
@@ -43,23 +44,32 @@ const Workspace = ({
         team={team}
         username={username}
       />
-      {/* <Header channelName={channel.name} />
-      <MessagesContainer channelId={channel.id} /> */}
-      <SendMessage onSubmit={() => {}} placeholder={userId} />
+      <Header channelName={"Someone's username"} />
+      <DirectMessagesContainer teamId={teamId} userId={userId} />
+      <SendMessage
+        onSubmit={async text => {
+          const res = await mutate({
+            variables: { text, receiverId: userId, teamId }
+          });
+          console.log(res);
+        }}
+        placeholder={userId}
+      />
     </div>
   );
 };
-Workspace.propTypes = {
-  data: Proptypes.object,
-  params: Proptypes.object,
-  match: Proptypes.object
+DirectMessage.propTypes = {
+  data: PropTypes.object,
+  params: PropTypes.object,
+  match: PropTypes.object,
+  mutate: PropTypes.func
 };
 
 export default compose(
-  graphql(createMessageMutation),
+  graphql(createDirectMessageMutation),
   graphql(meQuery, {
     options: {
       fetchPolicy: "network-only"
     }
   })
-)(Workspace);
+)(DirectMessage);

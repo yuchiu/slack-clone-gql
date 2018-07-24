@@ -54,7 +54,11 @@ class MessagesContainer extends React.Component {
       <div className="messages">
         <Comment.Group>
           {messages.map(message => (
-            <Message key={message.id} message={message} />
+            <Message
+              key={message.id}
+              message={message}
+              username={message.user.username}
+            />
           ))}
         </Comment.Group>
       </div>

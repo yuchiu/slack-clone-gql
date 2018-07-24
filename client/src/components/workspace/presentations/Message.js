@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { Comment } from "semantic-ui-react";
 import avatar from "../../../../assets/img/avatar.png";
 
-const Message = ({ message }) => (
+const Message = ({ message, username }) => (
   <Comment>
     <Comment.Avatar src={avatar} />
     <Comment.Content>
-      <Comment.Author as="a">{message.user.username}</Comment.Author>
+      <Comment.Author as="a">{username}</Comment.Author>
       <Comment.Metadata>
         <div>{message.created_at}</div>
       </Comment.Metadata>
@@ -19,6 +19,9 @@ const Message = ({ message }) => (
   </Comment>
 );
 
-Message.propTypes = { message: PropTypes.object };
+Message.propTypes = {
+  message: PropTypes.object,
+  username: PropTypes.string
+};
 
 export default Message;
