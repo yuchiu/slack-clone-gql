@@ -2,16 +2,20 @@ import React from "react";
 import { graphql, compose } from "react-apollo";
 import findIndex from "lodash.findindex";
 import { Redirect } from "react-router-dom";
-
 import PropTypes from "prop-types";
+
 import { Header, SendMessage } from "./presentations";
 import Sidebar from "./Sidebar";
 import DirectMessagesContainer from "./DirectMessagesContainer";
-import { meQuery, createDirectMessageMutation } from "../../graphql";
+import {
+  meQuery,
+  directMessageMeQuery,
+  createDirectMessageMutation
+} from "../../graphql";
 
 const DirectMessage = ({
   mutate,
-  data: { loading, me },
+  data: { loading, me, getUser },
   match: {
     params: { teamId, userId }
   }
@@ -44,15 +48,35 @@ const DirectMessage = ({
         team={team}
         username={username}
       />
-      <Header channelName={"Someone's username"} />
-      <DirectMessagesContainer teamId={teamId} userId={userId} />
+      <Header channelName={getUser.username} />
+      <DirectMessagesContainer teamId={team.id} userId={userId} />
       <SendMessage
         onSubmit={async text => {
           await mutate({
-            variables: { text, receiverId: userId, teamId }
+            variables: { text, receiverId: userId, teamId },
+            optimisticResponse: {
+              createDirectMessage: true
+            },
+            update: store => {
+              const data = store.readQuery({ query: meQuery });
+              const teamIdx2 = findIndex(data.me.teams, ["id", team.id]);
+              const notAlreadyThere = data.me.teams[
+                teamIdx2
+              ].directMessageMembers.every(
+                member => member.id !== parseInt(userId, 10)
+              );
+              if (notAlreadyThere) {
+                data.me.teams[teamIdx2].directMessageMembers.push({
+                  __typename: "User",
+                  id: userId,
+                  username: getUser.username
+                });
+                store.writeQuery({ query: meQuery, data });
+              }
+            }
           });
         }}
-        placeholder={userId}
+        placeholder={`aloha ${getUser.username}`}
       />
     </div>
   );
@@ -66,9 +90,12 @@ DirectMessage.propTypes = {
 
 export default compose(
   graphql(createDirectMessageMutation),
-  graphql(meQuery, {
-    options: {
-      fetchPolicy: "network-only"
-    }
+  graphql(directMessageMeQuery, {
+    options: props => ({
+      fetchPolicy: "network-only",
+      variables: {
+        userId: props.match.params.userId
+      }
+    })
   })
 )(DirectMessage);

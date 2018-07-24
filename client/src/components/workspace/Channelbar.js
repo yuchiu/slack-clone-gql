@@ -50,7 +50,12 @@ const Channelbar = ({
         />
       </h1>
       {users.map(user => (
-        <User key={user.id} user={user} username={username} />
+        <User
+          key={`users-${user.id}`}
+          teamId={teamId}
+          id={user.id}
+          username={user.username}
+        />
       ))}
     </ul>
     {isOwner && (
@@ -61,12 +66,13 @@ const Channelbar = ({
   </div>
 );
 Channelbar.propTypes = {
-  onAddChannelClick: Proptypes.func,
   channels: Proptypes.array,
   teamName: Proptypes.string,
   isOwner: Proptypes.bool,
   username: Proptypes.string,
+  onAddChannelClick: Proptypes.func,
   onInvitePeopleClick: Proptypes.func,
+  onDirectMessageClick: Proptypes.func,
   users: Proptypes.array,
   teamId: Proptypes.number
 };

@@ -1,4 +1,4 @@
 import ViewChannel from "./ViewChannel";
-import DirectMessage from "./DirectMessage";
+import ViewDirectMessage from "./ViewDirectMessage";
 
-export { ViewChannel, DirectMessage };
+export { ViewChannel, ViewDirectMessage };

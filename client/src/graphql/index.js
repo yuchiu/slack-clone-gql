@@ -8,7 +8,8 @@ import { meQuery, addTeamMemberMutation, createTeamMutation } from "./teamgql";
 import { allUsersQuery, registerMutation, loginMutation } from "./usergql";
 import {
   createDirectMessageMutation,
-  directMessagesQuery
+  directMessagesQuery,
+  directMessageMeQuery
 } from "./directMessagegql";
 
 export {
@@ -23,5 +24,6 @@ export {
   loginMutation,
   newChannelMessageSubscription,
   createDirectMessageMutation,
-  directMessagesQuery
+  directMessagesQuery,
+  directMessageMeQuery
 };

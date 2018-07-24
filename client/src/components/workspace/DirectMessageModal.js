@@ -22,7 +22,7 @@ const DirectMessageModal = ({
             <Downshift
               onChange={selectedUser => {
                 history.push(
-                  `/workspace/direct-message/${teamId}/${selectedUser.id}`
+                  `/workspace/view-direct-message/${teamId}/${selectedUser.id}`
                 );
                 onClose();
               }}
@@ -37,7 +37,7 @@ const DirectMessageModal = ({
               }) => (
                 <div>
                   <Input
-                    {...getInputProps({ placeholder: "user's email" })}
+                    {...getInputProps({ placeholder: "user name" })}
                     fluid
                   />
                   {isOpen ? (

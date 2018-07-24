@@ -30,7 +30,6 @@ export default {
             memberPromise,
             userToAddPromise
           ]);
-
           if (!member.admin) {
             return {
               verified: false,
@@ -39,7 +38,6 @@ export default {
               ]
             };
           }
-
           if (!userToAdd) {
             return {
               verified: false,
@@ -51,12 +49,12 @@ export default {
               ]
             };
           }
-
           await models.Member.create({ userId: userToAdd.id, teamId });
           return {
             verified: true
           };
         } catch (err) {
+          console.log(err);
           return {
             verified: false,
             errors: formatErrors(err, models)
@@ -69,7 +67,6 @@ export default {
         try {
           const response = await models.sequelize.transaction(async () => {
             const team = await models.Team.create({ ...args });
-            // create default channels
             await models.Channel.create({
               name: "general",
               public: true,
@@ -87,6 +84,7 @@ export default {
             team: response
           };
         } catch (err) {
+          console.log(err);
           return {
             verified: false,
             errors: formatErrors(err, models)
@@ -97,6 +95,15 @@ export default {
   },
   Team: {
     channels: ({ id }, args, { models }) =>
-      models.Channel.findAll({ where: { teamId: id } })
+      models.Channel.findAll({ where: { teamId: id } }),
+    directMessageMembers: ({ id }, args, { models, user }) =>
+      models.sequelize.query(
+        "select distinct on (u.id) u.id, u.username from users as u join direct_messages as dm on (u.id = dm.sender_id) or (u.id = dm.receiver_id) where (:currentUserId = dm.sender_id or :currentUserId = dm.receiver_id) and dm.team_id = :teamId",
+        {
+          replacements: { currentUserId: user.id, teamId: id },
+          model: models.User,
+          raw: true
+        }
+      )
   }
 };

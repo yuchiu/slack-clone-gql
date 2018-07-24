@@ -3,5 +3,9 @@ module.exports = {
     "rules":{
         "no-unused-vars":0,
         "linebreak-style": 0
-    }
+    },
+    "env": {
+      "jest": true,
+      "node": true
+    },
 };

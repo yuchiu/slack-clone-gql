@@ -43,7 +43,6 @@ const ViewChannel = ({
   // if channel link query integer is unusually large, redirect to default initial workspace
   const channel =
     channelIdx === -1 ? team.channels[0] : team.channels[channelIdx];
-
   return (
     <div className="workspace">
       <Sidebar
