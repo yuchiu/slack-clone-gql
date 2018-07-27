@@ -47,8 +47,15 @@ class InvitePeopleModal extends React.Component {
     }
   };
 
+  handleClose = e => {
+    const { onClose } = this.props;
+    e.preventDefault();
+    this.setState({ name: "" });
+    onClose();
+  };
+
   render() {
-    const { open, onClose } = this.props;
+    const { open } = this.props;
     const { email, emailError, clientErrors } = this.state;
     const errorList = [];
 
@@ -57,7 +64,7 @@ class InvitePeopleModal extends React.Component {
     }
 
     return (
-      <Modal open={open} onClose={onClose}>
+      <Modal open={open} onClose={this.handleClose}>
         <Modal.Header>Invite People</Modal.Header>
         <Modal.Content>
           <Form>
@@ -76,7 +83,7 @@ class InvitePeopleModal extends React.Component {
               <Button onClick={this.handleSubmit} fluid>
                 Invite
               </Button>
-              <Button fluid onClick={onClose}>
+              <Button fluid onClick={this.handleClose}>
                 Cancel
               </Button>
             </Form.Group>

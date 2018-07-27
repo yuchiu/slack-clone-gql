@@ -51,8 +51,15 @@ class AddChannelModal extends React.Component {
     }
   };
 
+  handleClose = e => {
+    const { onClose } = this.props;
+    e.preventDefault();
+    this.setState({ name: "" });
+    onClose();
+  };
+
   render() {
-    const { open, onClose } = this.props;
+    const { open } = this.props;
     const { name, clientErrors, nameError } = this.state;
     const errorList = [];
     if (nameError) {
@@ -60,7 +67,7 @@ class AddChannelModal extends React.Component {
     }
 
     return (
-      <Modal open={open} onClose={onClose}>
+      <Modal open={open} onClose={this.handleClose}>
         <Modal.Header>Add Channel</Modal.Header>
         <Modal.Content>
           <Form>
@@ -78,7 +85,7 @@ class AddChannelModal extends React.Component {
               <Button onClick={this.handleSubmit.bind(this)} fluid>
                 Create Channel
               </Button>
-              <Button fluid onClick={onClose}>
+              <Button fluid onClick={this.handleClose}>
                 Cancel
               </Button>
             </Form.Group>

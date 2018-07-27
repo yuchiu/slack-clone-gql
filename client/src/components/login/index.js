@@ -49,7 +49,7 @@ class Login extends Component {
       if (verified) {
         localStorage.setItem("token", token);
         localStorage.setItem("refreshToken", refreshToken);
-        this.props.history.push("/");
+        this.props.history.push("/workspace/view-channel");
         this.setState({
           error: {},
           email: "",
