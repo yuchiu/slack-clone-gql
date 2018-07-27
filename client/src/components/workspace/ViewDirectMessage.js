@@ -5,8 +5,7 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { Header, SendMessage } from "./presentations";
-import Sidebar from "./Sidebar";
-import DirectMessagesContainer from "./DirectMessagesContainer";
+import { Channelbar, Teambar, DirectMessagesContainer } from "./containers";
 import {
   meQuery,
   directMessageMeQuery,
@@ -40,7 +39,15 @@ const DirectMessage = ({
 
   return (
     <div className="workspace">
-      <Sidebar
+      <Teambar
+        className="team-bar-container"
+        key="team-sidebar"
+        teams={teams.map(t => ({
+          id: t.id,
+          letter: t.name.charAt(0).toUpperCase()
+        }))}
+      />
+      <Channelbar
         teams={teams.map(t => ({
           id: t.id,
           letter: t.name.charAt(0).toUpperCase()

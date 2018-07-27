@@ -3,15 +3,16 @@ import { Form, Input, Button, Modal, Message } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
 import findIndex from "lodash.findindex";
-import { meQuery, createChannelMutation } from "../../graphql";
-import { InlineError } from "../global";
-import { validateClientForm } from "../../utils";
+
+import { meQuery, createChannelMutation } from "../../../../graphql";
+import { InlineError } from "../../../global";
+import { formatErrors, validateClientForm } from "../../../../utils";
 
 class AddChannelModal extends React.Component {
   state = {
-    clientErrors: {},
+    clientError: {},
     name: "",
-    nameError: ""
+    serverError: ""
   };
 
   handleChange = e => {
@@ -23,17 +24,17 @@ class AddChannelModal extends React.Component {
 
   handleSubmit = async () => {
     this.setState({
-      nameError: ""
+      serverError: ""
     });
     // validate user's login info on client side
-    const clientErrors = validateClientForm.addChannel(this.state);
-    this.setState({ clientErrors });
+    const clientError = validateClientForm.addChannel(this.state);
+    this.setState({ clientError });
 
     // proceed to send data to server if there's no error
-    if (Object.keys(clientErrors).length === 0) {
+    if (Object.keys(clientError).length === 0) {
       const { teamId, mutate, onClose } = this.props;
       const { name } = this.state;
-      await mutate({
+      const response = await mutate({
         variables: { teamId, name },
         update: (store, { data: { createChannel } }) => {
           const { verified, channel } = createChannel;
@@ -46,8 +47,14 @@ class AddChannelModal extends React.Component {
           store.writeQuery({ query: meQuery, data });
         }
       });
-      this.setState({ name: "" });
-      onClose();
+      const { verified, errors } = response.data.createChannel;
+      if (verified) {
+        this.setState({ name: "" });
+        onClose();
+      } else {
+        const serverError = formatErrors(errors).email[0];
+        this.setState({ serverError });
+      }
     }
   };
 
@@ -60,10 +67,10 @@ class AddChannelModal extends React.Component {
 
   render() {
     const { open } = this.props;
-    const { name, clientErrors, nameError } = this.state;
+    const { name, clientError, serverError } = this.state;
     const errorList = [];
-    if (nameError) {
-      errorList.push(nameError);
+    if (serverError) {
+      errorList.push(serverError);
     }
 
     return (
@@ -79,7 +86,7 @@ class AddChannelModal extends React.Component {
                 fluid
                 placeholder="Channel name"
               />
-              {clientErrors.name && <InlineError text={clientErrors.name} />}
+              {clientError.name && <InlineError text={clientError.name} />}
             </Form.Field>
             <Form.Group widths="equal">
               <Button onClick={this.handleSubmit.bind(this)} fluid>

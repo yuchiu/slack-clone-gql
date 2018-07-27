@@ -4,7 +4,12 @@ import {
   messagesQuery,
   newChannelMessageSubscription
 } from "./messagegql";
-import { meQuery, addTeamMemberMutation, createTeamMutation } from "./teamgql";
+import {
+  meQuery,
+  addTeamMemberMutation,
+  createTeamMutation,
+  getTeamMembersQuery
+} from "./teamgql";
 import { allUsersQuery, registerMutation, loginMutation } from "./usergql";
 import {
   createDirectMessageMutation,
@@ -27,5 +32,6 @@ export {
   createDirectMessageMutation,
   directMessagesQuery,
   directMessageMeQuery,
-  newDirectMessageSubscription
+  newDirectMessageSubscription,
+  getTeamMembersQuery
 };

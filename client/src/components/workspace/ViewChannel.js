@@ -2,11 +2,10 @@ import React from "react";
 import { graphql, compose } from "react-apollo";
 import findIndex from "lodash.findindex";
 import { Redirect } from "react-router-dom";
-
 import PropTypes from "prop-types";
+
 import { Header, SendMessage } from "./presentations";
-import Sidebar from "./Sidebar";
-import MessagesContainer from "./MessagesContainer";
+import { Channelbar, Teambar, ChannelMessagesContainer } from "./containers";
 import { meQuery, createMessageMutation } from "../../graphql";
 
 const ViewChannel = ({
@@ -45,7 +44,15 @@ const ViewChannel = ({
     channelIdx === -1 ? team.channels[0] : team.channels[channelIdx];
   return (
     <div className="workspace">
-      <Sidebar
+      <Teambar
+        className="team-bar-container"
+        key="team-sidebar"
+        teams={teams.map(t => ({
+          id: t.id,
+          letter: t.name.charAt(0).toUpperCase()
+        }))}
+      />
+      <Channelbar
         teams={teams.map(t => ({
           id: t.id,
           letter: t.name.charAt(0).toUpperCase()
@@ -54,7 +61,7 @@ const ViewChannel = ({
         username={username}
       />
       {channel && <Header channelName={channel.name} />}
-      {channel && <MessagesContainer channelId={channel.id} />}
+      {channel && <ChannelMessagesContainer channelId={channel.id} />}
       {channel && (
         <SendMessage
           placeholder={channel.name}

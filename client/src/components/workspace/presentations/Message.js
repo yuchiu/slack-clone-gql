@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Comment } from "semantic-ui-react";
+
 import avatar from "../../../../assets/img/avatar.png";
 
 const Message = ({ message, username }) => (

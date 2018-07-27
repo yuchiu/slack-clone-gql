@@ -67,14 +67,17 @@ export default {
         try {
           const response = await models.sequelize.transaction(
             async transaction => {
-              const team = await models.Team.create({ ...args }, transaction);
+              const team = await models.Team.create(
+                { ...args },
+                { transaction }
+              );
               await models.Channel.create(
                 {
                   name: "general",
                   public: true,
                   teamId: team.id
                 },
-                transaction
+                { transaction }
               );
               await models.Member.create(
                 {
@@ -82,7 +85,7 @@ export default {
                   userId: user.id,
                   admin: true
                 },
-                transaction
+                { transaction }
               );
               return team;
             }

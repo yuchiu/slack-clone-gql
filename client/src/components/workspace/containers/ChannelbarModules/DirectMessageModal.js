@@ -1,10 +1,11 @@
 import React from "react";
 import { Form, Input, Button, Modal } from "semantic-ui-react";
 import Downshift from "downshift";
-import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+
+import { getTeamMembersQuery } from "../../../../graphql";
 
 const DirectMessageModal = ({
   history,
@@ -79,14 +80,6 @@ const DirectMessageModal = ({
   </Modal>
 );
 
-const getTeamMembersQuery = gql`
-  query($teamId: Int!) {
-    getTeamMembers(teamId: $teamId) {
-      id
-      username
-    }
-  }
-`;
 DirectMessageModal.propTypes = {
   open: PropTypes.bool,
   data: PropTypes.object,

@@ -2,10 +2,11 @@ import React from "react";
 import { graphql } from "react-apollo";
 import { Comment } from "semantic-ui-react";
 import Proptypes from "prop-types";
-import { Message } from "./presentations";
-import { newChannelMessageSubscription, messagesQuery } from "../../graphql";
 
-class MessagesContainer extends React.Component {
+import { Message } from "../presentations";
+import { newChannelMessageSubscription, messagesQuery } from "../../../graphql";
+
+class ChannelMessagesContainer extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.unsubscribe = this.subscribe(this.props.channelId);
@@ -65,7 +66,7 @@ class MessagesContainer extends React.Component {
     );
   }
 }
-MessagesContainer.propTypes = {
+ChannelMessagesContainer.propTypes = {
   channelId: Proptypes.number,
   data: Proptypes.object
 };
@@ -77,4 +78,4 @@ export default graphql(messagesQuery, {
     },
     fetchPolicy: "network-only"
   })
-})(MessagesContainer);
+})(ChannelMessagesContainer);

@@ -2,11 +2,12 @@ import React from "react";
 import { graphql } from "react-apollo";
 import { Comment } from "semantic-ui-react";
 import Proptypes from "prop-types";
-import { Message } from "./presentations";
+
+import { Message } from "../presentations";
 import {
   directMessagesQuery,
   newDirectMessageSubscription
-} from "../../graphql";
+} from "../../../graphql";
 
 class DirectMessagesContainer extends React.Component {
   // eslint-disable-next-line camelcase

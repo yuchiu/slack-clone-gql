@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Proptypes from "prop-types";
-import { Team } from "./presentations";
+
+import { Team } from "../presentations";
 
 const Teambar = ({ teams }) => (
   <div className="teambar">

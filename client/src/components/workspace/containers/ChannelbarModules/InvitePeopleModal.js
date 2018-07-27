@@ -2,15 +2,16 @@ import React from "react";
 import { Form, Input, Button, Modal, Message } from "semantic-ui-react";
 import { graphql } from "react-apollo";
 import Proptypes from "prop-types";
-import { addTeamMemberMutation } from "../../graphql";
-import { formatErrors, validateClientForm } from "../../utils";
-import { InlineError } from "../global";
+
+import { addTeamMemberMutation } from "../../../../graphql";
+import { formatErrors, validateClientForm } from "../../../../utils";
+import { InlineError } from "../../../global";
 
 class InvitePeopleModal extends React.Component {
   state = {
-    clientErrors: {},
+    clientError: {},
     email: "",
-    emailError: ""
+    serverError: ""
   };
 
   handleChange = e => {
@@ -22,14 +23,14 @@ class InvitePeopleModal extends React.Component {
 
   handleSubmit = async () => {
     this.setState({
-      emailError: ""
+      serverError: ""
     });
     // validate user's login info on client side
-    const clientErrors = validateClientForm.invitePeople(this.state);
-    this.setState({ clientErrors });
+    const clientError = validateClientForm.invitePeople(this.state);
+    this.setState({ clientError });
 
     // proceed to send data to server if there's no error
-    if (Object.keys(clientErrors).length === 0) {
+    if (Object.keys(clientError).length === 0) {
       const { teamId, mutate, onClose } = this.props;
       const { email } = this.state;
       const response = await mutate({
@@ -37,12 +38,13 @@ class InvitePeopleModal extends React.Component {
       });
 
       const { verified, errors } = response.data.addTeamMember;
+      console.log(response.data);
       if (verified) {
         this.setState({ email: "" });
         onClose();
       } else {
-        const emailError = formatErrors(errors).email[0];
-        this.setState({ emailError });
+        const serverError = formatErrors(errors).email[0];
+        this.setState({ serverError });
       }
     }
   };
@@ -56,11 +58,11 @@ class InvitePeopleModal extends React.Component {
 
   render() {
     const { open } = this.props;
-    const { email, emailError, clientErrors } = this.state;
+    const { email, serverError, clientError } = this.state;
     const errorList = [];
 
-    if (emailError) {
-      errorList.push(emailError);
+    if (serverError) {
+      errorList.push(serverError);
     }
 
     return (
@@ -77,7 +79,7 @@ class InvitePeopleModal extends React.Component {
                 placeholder="User's Email"
               />
             </Form.Field>
-            {clientErrors.email && <InlineError text={clientErrors.email} />}
+            {clientError.email && <InlineError text={clientError.email} />}
             <br />
             <Form.Group widths="equal">
               <Button onClick={this.handleSubmit} fluid>
